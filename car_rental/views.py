@@ -1,8 +1,8 @@
 #Endpoints go here
 from msilib.schema import ReserveCost
 from django.http import JsonResponse
-from .models import Car
-from .serializers import CarSerializer
+from .models import Car, CarType, Branch
+from .serializers import CarSerializer, BranchSerilzer, CarTypeSerilzer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -46,3 +46,44 @@ def car_detail(request, id, format=None):
     elif request.method == 'DELETE':
         car.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+#Creates/Adds in car type
+#Endpoint cars type
+@api_view(['GET','POST'])
+def car_type(request, format=None):
+    #get all cars
+    #serialize them
+    #return JSON
+    if request.method == 'GET':
+        car_type = CarType.objects.all()
+        serializer = CarTypeSerilzer(car_type, many=True)
+        return Response(serializer.data)
+    
+    if request.method == 'POST':
+        serializer = CarTypeSerilzer(data = request.data)
+    
+        if serializer.is_valid():
+        #   print(serializer.errors)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+
+#Creates/Adds in car type
+#Endpoint cars type
+@api_view(['GET','POST'])
+def branch_details(request, format=None):
+    #get all cars
+    #serialize them
+    #return JSON
+    if request.method == 'GET':
+        branch = Branch.objects.all()
+        serializer = BranchSerilzer(branch, many=True)
+        return Response(serializer.data)
+    
+    if request.method == 'POST':
+        serializer = BranchSerilzer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
