@@ -29,8 +29,8 @@ class Car(models.Model):
     licensePlate = models.CharField(max_length=12)
     status = models.CharField(max_length=45)
     mileage = models.IntegerField()
-    #typeID = models.ForeignKey(CarType, on_delete=models.CASCADE)
-    #BranchID = models.ForeignKey(Branch, on_delete=models.CASCADE)
+    typeID = models.ForeignKey(CarType, on_delete=models.CASCADE)
+    BranchID = models.ForeignKey(Branch, on_delete=models.CASCADE)
     def __str__(self):
         return self.manufacturer+ ' ' +self.model + ' - ' + str(self.mileage)
 
