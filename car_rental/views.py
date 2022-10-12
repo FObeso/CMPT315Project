@@ -1,5 +1,5 @@
 #Endpoints go here
-from msilib.schema import ReserveCost
+# from msilib.schema import ReserveCost
 from django.http import JsonResponse
 from .models import Car
 from .serializers import CarSerializer
