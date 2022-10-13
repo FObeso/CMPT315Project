@@ -9,7 +9,7 @@ class Branch(models.Model):
     postalCode = models.CharField(max_length=7)
     streetNumber = models.CharField(max_length=45)
     streetName = models.CharField(max_length=45)
-    unitNumber = models.IntegerField()
+    unitNumber = models.IntegerField(null=True,blank=True)
 
 class CarType(models.Model):
     id = models.AutoField(primary_key=True)
@@ -48,28 +48,28 @@ class Customer(models.Model):
     postalCode = models.CharField(max_length=7)
     streetNumber = models.CharField(max_length=45)
     streetName = models.CharField(max_length=45)
-    unitNumber = models.IntegerField()
+    unitNumber = models.IntegerField(null=True, blank=True)
 
 class Employee(models.Model):
     id = models.AutoField(primary_key=True)
     firstname = models.CharField(max_length=45)
     lastname = models.CharField(max_length=45)
-    email = models.EmailField()
+    email = models.EmailField(null=True,blank=True)
     phoneNumber = models.CharField(max_length=45)
     password = models.CharField(max_length=100)
     province = models.CharField(max_length=45)
     postalCode = models.CharField(max_length=7)
     streetNumber = models.CharField(max_length=45)
     streetName = models.CharField(max_length=45)
-    unitNumber = models.IntegerField()
+    unitNumber = models.IntegerField(null=True,blank=True)
     branchID = models.ForeignKey(Branch, on_delete=models.CASCADE)
 
 class Rental(models.Model):
     id = models.AutoField(primary_key=True)
     dateFrom = models.DateField()
     dateTo = models.DateField()
-    dateReturned = models.DateField()
-    totalCost = models.FloatField()
+    dateReturned = models.DateField(null=True,blank=True)
+    totalCost = models.FloatField(null=True,blank=True)
     licensePlate = models.CharField(max_length=45)
     
     #How to pull from customer.goldMembership?
