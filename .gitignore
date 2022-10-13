@@ -1,4 +1,4 @@
-db.splite3
+db.sqlite3
 .DS_Store
 .env
 ./frontend/node_modules
