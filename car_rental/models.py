@@ -40,6 +40,7 @@ class Customer(models.Model):
     lastname = models.CharField(max_length=45)
     driverLicense = models.CharField(max_length=45)
     email = models.EmailField()
+    password = models.CharField(max_length=100)
     phoneNumber = models.CharField(max_length=45)
     dob = models.DateField() #https://www.geeksforgeeks.org/datefield-django-models/
     goldMembership = models.CharField(max_length=45)
@@ -55,7 +56,7 @@ class Employee(models.Model):
     lastname = models.CharField(max_length=45)
     email = models.EmailField()
     phoneNumber = models.CharField(max_length=45)
-    password = models.CharField(max_length=45)
+    password = models.CharField(max_length=100)
     province = models.CharField(max_length=45)
     postalCode = models.CharField(max_length=7)
     streetNumber = models.CharField(max_length=45)
