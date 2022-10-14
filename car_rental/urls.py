@@ -24,6 +24,9 @@ urlpatterns = [
     path('cars/<int:id>', views.car_detail),
     path('carType/', views.car_type),
     path('branch/', views.branch_details),
+    path('employee/login/', views.login_employee),
+    path('login/', views.login_customer),
+    path('register/', views.register_customer)
     
 ]
 
