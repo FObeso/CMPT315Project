@@ -87,6 +87,31 @@ def branch_details(request, format=None):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+
+#transfer car from one branch to another based on branch id
+#Endpoint branchs/<int:id>
+@api_view(['GET','PUT','DELETE'])
+def branch_move(request, id, format=None):
+    try:
+        branch = Branch.objects.get(pk=id)
+    except Branch.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    #Add to new branch
+    if request.method == 'GET':
+        serializer = BranchSerilzer(Branch)
+        return Response(serializer.data)
+    #Update to new branch
+    elif request.method == 'PUT':
+        serializer = BranchSerilzer(Branch, data=request.data) 
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    #Delete from old branch
+    elif request.method == 'DELETE':
+        Branch.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 # login employee
 @api_view(['GET'])
 def login_employee(request):
@@ -159,3 +184,4 @@ def login_customer(request):
     except Exception as e:
         print(e)
         return Response({"message": "Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
