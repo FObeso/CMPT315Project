@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import AdminLogin from "./pages/AdminLogin";
+import EmployeeLogin from "./pages/EmployeeLogin";
 import Navbar from "./components/Navbar";
 import { ToastContainer } from "react-toastify";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -17,7 +17,7 @@ function App() {
         <Navbar />
         <div className={styles.container}>
           <Routes>
-            <Route path="/adminLogin" element={<AdminLogin />} />
+            <Route path="/employee/login" element={<EmployeeLogin />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/admin" element={<AdminDashboard />} />

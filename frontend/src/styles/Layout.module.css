@@ -1,7 +1,7 @@
 :root {
-  --primary-color: darkred;
-  --dark-color: #112549;
-  --dark-color-2: #1b3768;
+  --primary-color: rgb(18, 127, 74);
+  --primary-dark: rgb(0, 102, 57);
+  --primary-text: rgb(22 154 90);
   --light-color: #f4f4f4;
   --danger-color: #dc3545;
   --success-color: #28a745;
@@ -16,7 +16,7 @@
   position: fixed;
   width: 100%;
   top: 0;
-  border-bottom: solid 1px var(--dark-color);
+  border-bottom: solid 1px var(--primary-text);
   opacity: 0.9;
   background-color: var(--primary-color);
 }
@@ -35,7 +35,7 @@
 }
 
 .navbar a:hover {
-  color: var(--dark-color-2);
+  color: var(--primary-dark);
 }
 
 .navbar .welcome span {

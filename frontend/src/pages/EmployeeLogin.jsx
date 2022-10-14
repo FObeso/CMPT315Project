@@ -4,9 +4,8 @@ import styles from "../styles/Login.module.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const AdminLogin = () => {
+const EmployeeLogin = () => {
   const navigate = useNavigate();
-  const [inputFocus, updateFocus] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [userInfo, setUserInfo] = useState({
     email: "",
@@ -58,8 +57,6 @@ const AdminLogin = () => {
           <div className="pr-5 pl-5">
             <input
               className={styles.input}
-              onFocus={() => updateFocus(true)}
-              onBlur={() => updateFocus(false)}
               onChange={handleChange}
               type="email"
               name="email"
@@ -68,8 +65,6 @@ const AdminLogin = () => {
 
             <input
               className={styles.input}
-              onFocus={() => updateFocus(true)}
-              onBlur={() => updateFocus(false)}
               onChange={handleChange}
               type={"password"}
               name="password"
@@ -91,4 +86,4 @@ const AdminLogin = () => {
   );
 };
 
-export default AdminLogin;
+export default EmployeeLogin;
