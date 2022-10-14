@@ -1,12 +1,11 @@
 #Endpoints go here
-from msilib.schema import ReserveCost
-from django.http import JsonResponse
-from .models import Car, CarType, Branch
-from .serializers import CarSerializer, BranchSerilzer, CarTypeSerilzer
+from .models import Car, CarType, Branch, Customer, Employee
+from .serializers import CarSerializer, BranchSerilzer, CarTypeSerilzer, CustomerSerializer, EmployeeSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-
+import crypt
+import datetime
 #Creates/Adds in car info
 #Endpoint cars
 @api_view(['GET','POST'])
@@ -88,6 +87,7 @@ def branch_details(request, format=None):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+
 #transfer car from one branch to another based on branch id
 #Endpoint branchs/<int:id>
 @api_view(['GET','PUT','DELETE'])
@@ -111,3 +111,77 @@ def branch_move(request, id, format=None):
     elif request.method == 'DELETE':
         Branch.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+# login employee
+@api_view(['GET'])
+def login_employee(request):
+    try:
+        if request.method == 'GET':
+            email = request.query_params.get("email")
+            password = request.query_params.get('password')
+            # check for query params
+            if (not email or not password):
+                return Response({"message": "please fill all required fields"}, status=status.HTTP_400_BAD_REQUEST)
+            # retrieve the employee by email    
+            employee = Employee.objects.raw("SELECT * FROM car_rental_employee WHERE email = " + email + ";")
+            if (len(employee) == 0):
+                return Response({"message": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+            employee = employee[0]
+            # check if passwords match
+            passwordMatch = crypt.crypt(password, employee.password) == employee.password
+            print(passwordMatch)
+            if (not passwordMatch):
+                return Response({"message": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+        serializer = EmployeeSerializer(employee)
+        return Response({"employee": serializer.data}, status=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return Response({"message": "Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+# register new customer
+@api_view(['POST'])
+def register_customer(request):
+        if request.method == "POST":
+            try:
+                # check if user email exists
+                customer = Customer.objects.raw("SELECT * FROM car_rental_customer WHERE email = '" + request.data["email"] + "' ;")
+                if len(customer) > 0:
+                    return Response({"message": "email exists"}, status=status.HTTP_400_BAD_REQUEST)
+                finalData = request.data
+                finalData["password"] = crypt.crypt(request.data["password"])
+                finalData["dob"] = datetime.datetime.strptime(finalData["dob"], "%m/%d/%Y").date()
+                serializer = CustomerSerializer(data=finalData)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response({"customer": serializer.data}, status=status.HTTP_201_CREATED)
+                else:
+                    return Response({"message": "Invalid Info"}, status=status.HTTP_400_BAD_REQUEST)
+            except Exception as e:
+                print(e)
+                return Response({"message": "Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+#login customer
+@api_view(["GET"])
+def login_customer(request):
+    try:
+        if request.method == 'GET':
+            email = request.query_params.get("email")
+            password = request.query_params.get('password')
+            # check for query params
+            if (not email or not password):
+                return Response({"message": "please fill all required fields"}, status=status.HTTP_400_BAD_REQUEST)
+            # retrieve the employee by email    
+            customer = Customer.objects.raw("SELECT * FROM car_rental_customer WHERE email = " + email + ";")
+            if (len(customer) == 0):
+                return Response({"message": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+            customer = customer[0]
+            # check if passwords match
+            passwordMatch = crypt.crypt(password, customer.password) == customer.password
+            if (not passwordMatch):
+                return Response({"message": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+        serializer = CustomerSerializer(customer)
+        return Response({"customer": serializer.data}, status=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return Response({"message": "Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
