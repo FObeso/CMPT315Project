@@ -16,7 +16,7 @@ const Navbar = () => {
     if (userType.toLowerCase() === "user") {
       navigate("/login");
     } else if (userType === "admin") {
-      navigate("/adminLogin");
+      navigate("/employee/login");
     }
   };
   const authLinks = (
