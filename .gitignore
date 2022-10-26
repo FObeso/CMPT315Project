@@ -19,3 +19,6 @@ db.sqlite3
 /frontend/npm-debug.log*
 /frontend/yarn-debug.log*
 /frontend/yarn-error.log*
+/car_rental/migrations
+__pycache__
+
