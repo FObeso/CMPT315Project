@@ -27,7 +27,8 @@ urlpatterns = [
     path('branch/<int:id>', views.branch_move),
     path('employee/login/', views.login_employee),
     path('login/', views.login_customer),
-    path('register/', views.register_customer)
+    path('register/', views.register_customer),
+    path('customer/', views.customer),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

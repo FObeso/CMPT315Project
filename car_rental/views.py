@@ -6,7 +6,8 @@ from .serializers import CarSerializer, BranchSerilzer, CarTypeSerilzer, Custome
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from passlib.hash import sha256_crypt as md5
+from passlib.hash import md5_crypt as md5
+
 import datetime
 #Creates/Adds in car info
 #Endpoint cars
@@ -131,7 +132,9 @@ def login_employee(request):
                 return Response({"message": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
             employee = employee[0]
             # check if passwords match
-            passwordMatch = md5.verify(password, employee.password)
+
+            passwordMatch = md5.crypt(password, employee.password) == employee.password
+
             print(passwordMatch)
             if (not passwordMatch):
                 return Response({"message": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
@@ -151,7 +154,9 @@ def register_customer(request):
                 if len(customer) > 0:
                     return Response({"message": "email exists"}, status=status.HTTP_400_BAD_REQUEST)
                 finalData = request.data
-                finalData["password"] = md5.hash(request.data["password"])
+
+                finalData["password"] = md5.crypt(request.data["password"])
+
                 finalData["dob"] = datetime.datetime.strptime(finalData["dob"], "%m/%d/%Y").date()
                 serializer = CustomerSerializer(data=finalData)
                 if serializer.is_valid():
@@ -179,10 +184,9 @@ def login_customer(request):
                 return Response({"message": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
             customer = customer[0]
             # check if passwords match
-            print("check 1")
-            passwordMatch = md5.verify(password, customer.password)
-            print(password, customer.password)
-            print(passwordMatch)
+
+            passwordMatch = md5.crypt(password, customer.password) == customer.password
+
             if (not passwordMatch):
                 return Response({"message": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
         serializer = CustomerSerializer(customer)
@@ -191,3 +195,26 @@ def login_customer(request):
         print(e)
         return Response({"message": "Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+# CRUD endpoint for customer 
+# get all customer
+# update customer info
+
+@api_view(['GET', 'PUT'])
+def customer(request, format=None):
+    try:
+        if request.method == "GET":
+            customers = Customer.objects.all()
+            serializer = CustomerSerializer(customers, many=True)
+            return Response(serializer.data)
+        elif request.method == "PUT":
+            id = request.query_params.get("id")
+            customer = Customer.objects.get(pk=id)
+            serializer = CustomerSerializer(customer, data=request.data) 
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+    except Exception as e:
+        print(e)
+        return Response({"message": "Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
