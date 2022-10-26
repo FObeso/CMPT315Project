@@ -7,6 +7,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from passlib.hash import md5_crypt as md5
+
 import datetime
 #Creates/Adds in car info
 #Endpoint cars
@@ -121,6 +122,7 @@ def login_employee(request):
         if request.method == 'GET':
             email = request.query_params.get("email")
             password = request.query_params.get('password')
+            print(email)
             # check for query params
             if (not email or not password):
                 return Response({"message": "please fill all required fields"}, status=status.HTTP_400_BAD_REQUEST)
@@ -130,7 +132,9 @@ def login_employee(request):
                 return Response({"message": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
             employee = employee[0]
             # check if passwords match
+
             passwordMatch = md5.crypt(password, employee.password) == employee.password
+
             print(passwordMatch)
             if (not passwordMatch):
                 return Response({"message": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
@@ -150,7 +154,9 @@ def register_customer(request):
                 if len(customer) > 0:
                     return Response({"message": "email exists"}, status=status.HTTP_400_BAD_REQUEST)
                 finalData = request.data
+
                 finalData["password"] = md5.crypt(request.data["password"])
+
                 finalData["dob"] = datetime.datetime.strptime(finalData["dob"], "%m/%d/%Y").date()
                 serializer = CustomerSerializer(data=finalData)
                 if serializer.is_valid():
@@ -178,7 +184,9 @@ def login_customer(request):
                 return Response({"message": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
             customer = customer[0]
             # check if passwords match
+
             passwordMatch = md5.crypt(password, customer.password) == customer.password
+
             if (not passwordMatch):
                 return Response({"message": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
         serializer = CustomerSerializer(customer)

@@ -17,33 +17,29 @@ const EmployeeLogin = () => {
   };
 
   const handleSubmit = (e) => {
-    // e.preventDefault();
-    // setDisabled(true);
-    // axios
-    //   .post(`${process.env.REACT_APP_SERVER_API}/admin/login`, {
-    //     email: userInfo.email,
-    //     password: userInfo.password,
-    //   })
-    //   .then((res) => {
-    //     if (res.data.success) {
-    //       // save in localstorage: make sure to save the user type as otherwise can't access protected routes
-    //       localStorage.setItem("email", res.data.admin.email);
-    //       localStorage.setItem("token", res.data.token);
-    //       localStorage.setItem("type", "admin");
-    //       setDisabled(false);
-    //       toast.success("Login Successful");
-    //       // change the route to the admin page
-    //       navigate("/admin");
-    //     } else {
-    //       console.log(res.data.message);
-    //       toast.error(res.data.message);
-    //     }
-    //   })
-    //   .catch(function (err) {
-    //     console.log(err);
-    //     setDisabled(false);
-    //     toast.error(err.message);
-    //   });
+    e.preventDefault();
+    setDisabled(true);
+    axios
+      .get(`${process.env.REACT_APP_SERVER_URL}/employee/login`, {
+        params: {
+          email: JSON.stringify(userInfo.email),
+          password: userInfo.password,
+        },
+      })
+      .then((res) => {
+        // save in localstorage: make sure to save the user type as otherwise can't access protected routes
+        localStorage.setItem("email", res.data.employee.email);
+        localStorage.setItem("type", "admin");
+        setDisabled(false);
+        toast.success("Login Successful");
+        // change the route to the admin page
+        navigate("/admin");
+      })
+      .catch(function (err) {
+        console.log(err);
+        setDisabled(false);
+        toast.error(err.message);
+      });
   };
   return (
     <div className="flex items-center justify-center w-full">
