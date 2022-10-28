@@ -1,5 +1,6 @@
 from unittest.util import _MAX_LENGTH
 from django.db import models
+from ckeditor.fields import RichTextField
 
 class Branch(models.Model):
     id = models.AutoField(primary_key=True)
@@ -81,3 +82,9 @@ class Rental(models.Model):
     typeID = models.ForeignKey(CarType,on_delete=models.CASCADE)
     customerID = models.ForeignKey(Customer, on_delete=models.CASCADE)
     employeeID = models.ForeignKey(Employee, on_delete=models.CASCADE)
+
+class CarCondition(models.Model):
+    id = models.AutoField(primary_key=True)
+    date = models.DateField()
+    description = RichTextField()
+    carID = models.ForeignKey(Car, on_delete=models.CASCADE)

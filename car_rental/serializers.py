@@ -1,6 +1,6 @@
 #Serializers = converts from python object to JSON
 from rest_framework import serializers
-from .models import Car, CarType, Branch, Customer, Employee
+from .models import *
 
 class CarSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,4 +29,7 @@ class CustomerSerializer(serializers.ModelSerializer):
         model = Customer
         fields = ['id','firstname', 'lastname', 'driverLicense',  'email', 'password','phoneNumber', 'dob', 'goldMembership','province', 'postalCode', 'streetNumber', 'streetName', 'unitNumber']
 
-
+class CarConditionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CarCondition
+        fields = ['id','date','description']
