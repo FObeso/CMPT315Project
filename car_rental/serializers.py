@@ -29,7 +29,7 @@ class CustomerSerializer(serializers.ModelSerializer):
         model = Customer
         fields = ['id','firstname', 'lastname', 'driverLicense',  'email', 'password','phoneNumber', 'dob', 'goldMembership','province', 'postalCode', 'streetNumber', 'streetName', 'unitNumber']
 
-class CarConditionSerializer(serializers.ModelSerializer):
+class CarDamageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CarCondition
-        fields = ['id','date','description']
+        model = CarDamage
+        fields = ['id','date','damageCost','description']

@@ -44,7 +44,7 @@ class Customer(models.Model):
     password = models.CharField(max_length=100)
     phoneNumber = models.CharField(max_length=45)
     dob = models.DateField() #https://www.geeksforgeeks.org/datefield-django-models/
-    goldMembership = models.CharField(max_length=45)
+    goldMembership = models.CharField(blank=True, max_length=45)
     province = models.CharField(max_length=45)
     postalCode = models.CharField(max_length=7)
     streetNumber = models.CharField(max_length=45)
@@ -74,7 +74,7 @@ class Rental(models.Model):
     licensePlate = models.CharField(max_length=45)
     
     #How to pull from customer.goldMembership?
-    goldMembership = models.CharField(max_length=45) #incorrect rn
+    goldMembership = models.CharField(blank=True,max_length=45) #incorrect rn
     
     #Foreign Key
     branchID = models.ForeignKey(Branch, on_delete=models.CASCADE)
@@ -83,8 +83,9 @@ class Rental(models.Model):
     customerID = models.ForeignKey(Customer, on_delete=models.CASCADE)
     employeeID = models.ForeignKey(Employee, on_delete=models.CASCADE)
 
-class CarCondition(models.Model):
+class CarDamage(models.Model):
     id = models.AutoField(primary_key=True)
     date = models.DateField()
     description = RichTextField()
+    damageCost = models.IntegerField()
     carID = models.ForeignKey(Car, on_delete=models.CASCADE)
