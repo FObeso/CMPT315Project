@@ -6,7 +6,7 @@ from .serializers import *
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from passlib.hash import md5_crypt as md5
+from passlib.hash import sha256_crypt as sha
 
 import datetime
 #Creates/Adds in car info
@@ -133,7 +133,7 @@ def login_employee(request):
             employee = employee[0]
             # check if passwords match
 
-            passwordMatch = md5.crypt(password, employee.password) == employee.password
+            passwordMatch = sha.verify(password, employee.password)
 
             print(passwordMatch)
             if (not passwordMatch):
@@ -155,7 +155,7 @@ def register_customer(request):
                     return Response({"message": "email exists"}, status=status.HTTP_400_BAD_REQUEST)
                 finalData = request.data
 
-                finalData["password"] = md5.crypt(request.data["password"])
+                finalData["password"] = sha.hash(request.data["password"])
 
                 finalData["dob"] = datetime.datetime.strptime(finalData["dob"], "%m/%d/%Y").date()
                 serializer = CustomerSerializer(data=finalData)
@@ -185,7 +185,7 @@ def login_customer(request):
             customer = customer[0]
             # check if passwords match
 
-            passwordMatch = md5.crypt(password, customer.password) == customer.password
+            passwordMatch = sha.hash(password, customer.password)
 
             if (not passwordMatch):
                 return Response({"message": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
