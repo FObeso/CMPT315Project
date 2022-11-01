@@ -1,0 +1,64 @@
+:root {
+  --primary-color: rgb(18, 127, 74);
+  --primary-dark: rgb(0, 102, 57);
+  --primary-text: rgb(22 154 90);
+  --light-color: #f4f4f4;
+  --danger-color: #dc3545;
+  --success-color: #28a745;
+}
+
+.loginContainer {
+  border-radius: 10px;
+  border: 1px solid gray;
+  width: 100%;
+}
+
+.loginContainer section {
+  padding: 1rem;
+}
+
+.disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.loginHeader span {
+  font-weight: bold;
+}
+
+.inputContainer {
+  border: 1px solid gray;
+  border-radius: 10px;
+}
+
+.loginFooter button {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 60px;
+  background-color: "white";
+  color: var(--primary-text);
+  outline: none;
+  font-size: large;
+  border: 2px solid var(--primary-color);
+  font-weight: 600;
+}
+
+.loginFooter button:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.input {
+  width: 100%;
+  margin-top: 2rem;
+  padding: 0.7rem;
+  border-radius: 10px;
+  outline: none;
+  border: 1px solid var(--primary-color);
+  font-weight: 500;
+}
+
+.input:focus {
+  border: 2px solid var(--primary-color);
+  box-shadow: none;
+  outline: 0 none;
+}
