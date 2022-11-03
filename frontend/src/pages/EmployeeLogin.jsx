@@ -29,11 +29,11 @@ const EmployeeLogin = () => {
       .then((res) => {
         // save in localstorage: make sure to save the user type as otherwise can't access protected routes
         localStorage.setItem("email", res.data.employee.email);
-        localStorage.setItem("type", "admin");
+        localStorage.setItem("type", "employee");
         setDisabled(false);
         toast.success("Login Successful");
         // change the route to the admin page
-        navigate("/admin");
+        navigate("/employee");
       })
       .catch(function (err) {
         console.log(err);
