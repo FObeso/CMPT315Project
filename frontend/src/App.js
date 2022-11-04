@@ -19,11 +19,11 @@ function App() {
         <Navbar />
         <div className={styles.container}>
           <Routes>
-            <Route path="/employee/login" element={<EmployeeLogin />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/employee/login/" element={<EmployeeLogin />} />
+            <Route path="/login/" element={<Login />} />
+            <Route path="/register/" element={<Register />} />
             <Route element={<PrivateEmployeeRoute />}>
-              <Route path="/employee" element={<AdminDashboard />} />
+              <Route path="/employee/" element={<AdminDashboard />} />
             </Route>
             <Route element={<PrivateCustomerRoute />}>
               <Route path="/" element={<Dashboard />} />

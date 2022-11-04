@@ -115,10 +115,46 @@ def branch_move(request, id, format=None):
         Branch.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-# login employee
+# register new employee
+@api_view(['GET'])
+def view_employees(request):
+        if request.method == 'GET':
+            employees = Employee.objects.all()
+            serializer = EmployeeSerializer(employees, many=True)
+            return Response(serializer.data)
+
+# register new employee
+@api_view(['POST'])
+def register_employee(request):
+        if request.method == "POST":
+            #request.data._mutable = True
+            try:
+                # check if user email exists
+                employee = Employee.objects.raw("SELECT * FROM car_rental_employee WHERE email = '" + request.data["email"] + "' ;")
+                if len(employee) > 0:
+                    return Response({"message": "email exists"}, status=status.HTTP_400_BAD_REQUEST)
+                finalData = request.data
+
+                finalData["password"] = sha.hash(request.data["password"])
+
+                serializer = EmployeeSerializer(data=finalData)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response({"employee": serializer.data}, status=status.HTTP_201_CREATED)
+                else:
+                    
+                    print(serializer.errors)
+                    return Response({"message": "Invalid Info"}, status=status.HTTP_400_BAD_REQUEST)
+            except Exception as e:
+                print(e)
+                return Response({"message": "Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+# login employeeS
 @api_view(['GET'])
 def login_employee(request):
     try:
+        print("HERE")
         if request.method == 'GET':
             email = request.query_params.get("email")
             password = request.query_params.get('password')
@@ -132,7 +168,7 @@ def login_employee(request):
                 return Response({"message": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
             employee = employee[0]
             # check if passwords match
-
+            print(employee.password)
             passwordMatch = sha.verify(password, employee.password)
 
             print(passwordMatch)

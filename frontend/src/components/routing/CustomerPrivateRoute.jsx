@@ -8,7 +8,7 @@ const PrivateCustomerRoute = () => {
     userEmail.length === 0 ||
     !userType ||
     userType.toLowerCase() !== "customer" ? (
-    <Navigate to="/login" />
+    <Navigate to="/login/" />
   ) : (
     <Outlet />
   );

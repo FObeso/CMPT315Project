@@ -20,7 +20,7 @@ const EmployeeLogin = () => {
     e.preventDefault();
     setDisabled(true);
     axios
-      .get(`${process.env.REACT_APP_SERVER_URL}/employee/login`, {
+      .get(`${process.env.REACT_APP_SERVER_URL}/employee/login/`, {
         params: {
           email: JSON.stringify(userInfo.email),
           password: userInfo.password,
@@ -33,7 +33,7 @@ const EmployeeLogin = () => {
         setDisabled(false);
         toast.success("Login Successful");
         // change the route to the admin page
-        navigate("/employee");
+        navigate("/employees/");
       })
       .catch(function (err) {
         console.log(err);
