@@ -4,6 +4,7 @@ import styles from "../styles/Login.module.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Input from "../components/Input";
 const EmployeeLogin = () => {
   const navigate = useNavigate();
   const [disabled, setDisabled] = useState(false);
@@ -33,7 +34,7 @@ const EmployeeLogin = () => {
         setDisabled(false);
         toast.success("Login Successful");
         // change the route to the admin page
-        navigate("/employees/");
+        navigate("/employee/cars");
       })
       .catch(function (err) {
         console.log(err);
@@ -51,17 +52,15 @@ const EmployeeLogin = () => {
           <hr className="m-0" />
 
           <div className="pr-5 pl-5">
-            <input
-              className={styles.input}
-              onChange={handleChange}
+            <Input
+              handleChange={handleChange}
               type="email"
               name="email"
               placeholder="Email Address"
             />
 
-            <input
-              className={styles.input}
-              onChange={handleChange}
+            <Input
+              handleChange={handleChange}
               type={"password"}
               name="password"
               placeholder="Password"
