@@ -14,9 +14,9 @@ const Navbar = () => {
     localStorage.clear();
     // navigate user back based on user type
     if (userType.toLowerCase() === "user") {
-      navigate("/login");
+      navigate("/login/");
     } else if (userType === "admin") {
-      navigate("/employee/login");
+      navigate("/employee/login/");
     }
   };
   const authLinks = (

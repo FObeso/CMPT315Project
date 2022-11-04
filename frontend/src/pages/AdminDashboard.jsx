@@ -13,7 +13,7 @@ const Dashboard = () => {
       !userType ||
       userType.toLowerCase() !== "admin"
     ) {
-      navigate("/adminLogin");
+      navigate("/employee/login/");
     }
   }, [navigate]);
   return <div>Dashboard</div>;
