@@ -11,7 +11,7 @@ const Dashboard = () => {
       !userEmail ||
       userEmail.length === 0 ||
       !userType ||
-      userType.toLowerCase() !== "admin"
+      userType.toLowerCase() !== "employee"
     ) {
       navigate("/employee/login/");
     }

@@ -7,6 +7,7 @@ module.exports = {
         primary: "#127F4A",
         primaryLight: "#006639",
         primaryText: "#169a5a",
+        lightOpacity: "rgba(18, 127, 74, 0.3)",
       },
     },
   },
