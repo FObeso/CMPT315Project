@@ -208,6 +208,7 @@ def register_customer(request):
 @api_view(["GET"])
 def login_customer(request):
     try:
+        print("HERE")
         if request.method == 'GET':
             email = request.query_params.get("email")
             password = request.query_params.get('password')
@@ -221,8 +222,9 @@ def login_customer(request):
             customer = customer[0]
             # check if passwords match
 
-            passwordMatch = sha.hash(password, customer.password)
+            passwordMatch = sha.verify(password, customer.password)
 
+            print(passwordMatch)
             if (not passwordMatch):
                 return Response({"message": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
         serializer = CustomerSerializer(customer)
