@@ -31,6 +31,8 @@ urlpatterns = [
     path('login/', views.login_customer),
     path('register/', views.register_customer),
     path('customer/', views.customer),
+    path('lateFees/', views.late_fees), 
+    path('returnCar/', views.return_car_to_branch)
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
