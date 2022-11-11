@@ -1,5 +1,8 @@
 #Endpoints go here
 
+import json
+from django.db import connection
+from django.http import JsonResponse
 from .models import *
 from .serializers import *
 
@@ -255,6 +258,7 @@ def customer(request, format=None):
         print(e)
         return Response({"message": "Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
 #Creates/Adds in rental table
 #Endpoint Rentals
 @api_view(['GET','POST'])
@@ -270,3 +274,76 @@ def rental(request, format=None):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+
+
+#calclates the late fee. 
+@api_view(['GET'])
+def late_fees(request):
+    
+    if request.method == "GET":
+        select = "select customerID_id, dateTo, dateReturned, (ROUND((JULIANDAY(dateReturned) - JULIANDAY(dateTo)) )) * lateFee AS difference"
+    
+        query = select + " from car_rental_rental, car_rental_cartype " +" where car_rental_rental.typeID_id = car_rental_cartype.id and customerID_id "
+
+        with connection.cursor() as cursor:
+            cursor.execute(query)
+        
+            db = cursor.fetchall() 
+            json_data = []
+            for data in db:
+                json_data.append({"customer_id" : data[0], "dateTo" : data[1], "dateReturned" : data[2],  "late_fee" : data[3]})
+            
+    
+        return JsonResponse(json_data, safe=False)
+
+
+
+#If a car is returned a different branch and the customer is not a gold memeber
+#charge the customer a fee.
+def return_car_to_different_branch_fee(car_id, branch_id):
+   
+    select = "select goldMembership from car_rental_rental "
+    cond = " where carID_id = " + car_id +  "  and branchID_id != " + branch_id + " and goldMembership == 'N' "
+
+    query = select + cond
+
+    with connection.cursor() as cursor:
+        cursor.execute(query)     
+
+    #if empty then the person is not a gold member charge them 10 bucks
+    if cursor.fetchall() == 0:
+        return 10
+    else:
+        return 0
+
+
+
+@api_view(['POST'])
+def return_car_to_branch(request):
+    #body_unicode = request.body
+    
+    try:
+    
+        if request.method == "POST":
+        
+            car_id = request.data["car_id"]
+            branch_id = request.data["branch_id"]
+            
+            update = "UPDATE car_rental_car SET BranchID_id = " + str(branch_id) + " , status = 'Available'"
+
+            cond = " WHERE car_rental_car.id = " + str(car_id) + "  and car_rental_car.status == 'rented' "
+
+            query = update + cond
+
+            with connection.cursor() as cursor:
+                    cursor.execute(query)        
+            
+            return Response({'success':'returned car'}, status=status.HTTP_200_OK)
+    
+    except Exception as e:
+        print(e)
+        return Response({"message": "Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
