@@ -39,7 +39,7 @@ const EmployeeLogin = () => {
       .catch(function (err) {
         console.log(err);
         setDisabled(false);
-        toast.error(err.message);
+        toast.error(err.response.statusText);
       });
   };
   return (

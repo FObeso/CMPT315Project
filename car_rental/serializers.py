@@ -33,3 +33,8 @@ class CarDamageSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarDamage
         fields = ['id','date','damageCost','description']
+
+class RentalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rental
+        fields = ["id", "dateFrom", "dateTo", "dateReturned", "totalCost", "licensePlate" ,"goldMembership", "branchID", "carID", "typeID", "customerID", "employeeID"]
