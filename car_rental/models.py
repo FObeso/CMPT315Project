@@ -81,7 +81,7 @@ class Rental(models.Model):
     carID = models.ForeignKey(Car, on_delete=models.CASCADE)
     typeID = models.ForeignKey(CarType,on_delete=models.CASCADE)
     customerID = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    employeeID = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    employeeID = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, blank=True)
 
 class CarDamage(models.Model):
     id = models.AutoField(primary_key=True)

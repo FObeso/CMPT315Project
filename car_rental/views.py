@@ -254,3 +254,19 @@ def customer(request, format=None):
     except Exception as e:
         print(e)
         return Response({"message": "Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+#Creates/Adds in rental table
+#Endpoint Rentals
+@api_view(['GET','POST'])
+def rental(request, format=None):
+   
+    if request.method == 'GET':
+        rentals = Rental.objects.all()
+        serializer = RentalSerializer(rentals, many=True)
+        return Response(serializer.data)
+    
+    if request.method == 'POST':
+        serializer = RentalSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
