@@ -4,6 +4,7 @@ import styles from "../styles/Login.module.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Input from "../components/Input"
 const Login = () => {
   const navigate = useNavigate();
   const [disabled, setDisabled] = useState(false);
@@ -51,7 +52,7 @@ const Login = () => {
           <hr className="m-0" />
 
           <div className="pr-5 pl-5">
-            <input
+            <Input
               className={styles.input}
               onChange={handleChange}
               type="email"
@@ -59,7 +60,7 @@ const Login = () => {
               placeholder="Email Address"
             />
 
-            <input
+            <Input
               className={styles.input}
               onChange={handleChange}
               type={"password"}
