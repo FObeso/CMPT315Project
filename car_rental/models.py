@@ -4,6 +4,7 @@ from ckeditor.fields import RichTextField
 
 class Branch(models.Model):
     id = models.AutoField(primary_key=True)
+    branchName = models.CharField(max_length=50,null=True,blank=True)
     phoneNumber = models.CharField(max_length=12)
     province = models.CharField(max_length=45)
     city = models.CharField(max_length=45)
