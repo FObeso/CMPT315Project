@@ -32,7 +32,7 @@ class Car(models.Model):
     mileage = models.IntegerField()
     typeID = models.ForeignKey(CarType, on_delete=models.CASCADE)
     BranchID = models.ForeignKey(Branch, on_delete=models.CASCADE)
-    image = models.ImageField(default="",upload_to="./car_pictures")
+    image = models.ImageField(default="",upload_to="./car_pictures", null=True, blank=True)
 
     def __str__(self):
         return self.manufacturer+ ' ' +self.model + ' - ' + str(self.mileage)

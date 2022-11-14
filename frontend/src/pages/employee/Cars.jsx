@@ -4,9 +4,22 @@ import React, { useState, useEffect } from "react";
 import { FaPlus } from "react-icons/fa";
 import EmployeeSideBar from "../../components/EmployeeSideBar";
 import AddCarModal from "../../components/modals/AddCarModal";
+import ViewAndEditCarModal from "../../components/modals/ViewAndEditCarModal";
 const Cars = () => {
   const [cars, setCars] = useState([]);
   const [showAddCarModal, setShowAddCarModal] = useState(false);
+  const [showViewInfoModal, setShowViewInfoModal] = useState(false);
+  const [currentCar, setCurrentCar] = useState({
+    manufacturer: "",
+    model: "",
+    fuelType: "",
+    colour: "",
+    licensePlate: "",
+    status: "",
+    mileage: "",
+    typeID: "",
+    BranchID: "",
+  });
   const getCars = () => {
     axios.get(`${process.env.REACT_APP_SERVER_URL}/cars/`).then((res) => {
       console.log(res.data);
@@ -76,7 +89,14 @@ const Cars = () => {
                     <div>{car.status}</div>
                   </Grid>
                   <Grid item xs={2}>
-                    <Button variant="contained" color="success">
+                    <Button
+                      variant="contained"
+                      color="success"
+                      onClick={() => {
+                        setCurrentCar(car);
+                        setShowViewInfoModal(true);
+                      }}
+                    >
                       View Info
                     </Button>
                   </Grid>
@@ -91,6 +111,14 @@ const Cars = () => {
       <AddCarModal
         open={showAddCarModal}
         onClose={() => setShowAddCarModal(false)}
+        setCars={setCars}
+      />
+
+      <ViewAndEditCarModal
+        currentCar={currentCar}
+        setCurrentCar={setCurrentCar}
+        open={showViewInfoModal}
+        onClose={() => setShowViewInfoModal(false)}
         setCars={setCars}
       />
     </div>
