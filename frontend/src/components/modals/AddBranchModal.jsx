@@ -118,13 +118,13 @@ const AddBranchModal = ({ open, onClose, setBranches }) => {
                     />
                     <Input
                         handleChange={handleChange}
-                        type="text"
+                        type="int"
                         name="unitNumber"
                         placeholder="Unit Number"
                     />
                     <div className="flex items-center justify-center mt-6">
                         <Button color="success" variant="contained" type="submit">
-                            Add Car
+                            Add Branch
                         </Button>
                     </div>
                 </form>
