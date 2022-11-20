@@ -17,7 +17,7 @@ class CarTypeSerilzer(serializers.ModelSerializer):
 class BranchSerilzer(serializers.ModelSerializer):
     class Meta:
         model = Branch
-        fields = ["id", "phoneNumber", "province", "city", "postalCode", "streetNumber", "streetName", "unitNumber"]
+        fields = ["id","branchName", "phoneNumber", "province", "city", "postalCode", "streetNumber", "streetName", "unitNumber"]
 
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -38,3 +38,8 @@ class RentalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rental
         fields = ["id", "dateFrom", "dateTo", "dateReturned", "totalCost", "licensePlate" ,"goldMembership", "branchID", "carID", "typeID", "customerID", "employeeID"]
+
+class BranchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Branch
+        fields = ["id", "name", "phoneNumber", "province", "city", "postalCode", "streetNumber", "streetName", "unitNumber"]
