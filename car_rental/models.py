@@ -4,7 +4,7 @@ from django.db import models
 
 class Branch(models.Model):
     id = models.AutoField(primary_key=True)
-    branchName = models.CharField(max_length=50, null=True, blank=True)
+    branchName = models.CharField(max_length=50, null=True, blank=True, default="")
     phoneNumber = models.CharField(max_length=12)
     province = models.CharField(max_length=45)
     city = models.CharField(max_length=45)
@@ -52,7 +52,7 @@ class Customer(models.Model):
     phoneNumber = models.CharField(max_length=45)
     dob = models.DateField()  # https://www.geeksforgeeks.org/datefield-django-models/
     goldMembership = models.BooleanField(null=True, blank=True)
-    city = models.CharField(max_length=45)
+    city = models.CharField(max_length=45, null=True, blank=True)
     province = models.CharField(max_length=45)
     postalCode = models.CharField(max_length=7)
     streetNumber = models.CharField(max_length=45)
@@ -82,16 +82,16 @@ class Rental(models.Model):
     dateReturned = models.DateField(null=True, blank=True)
     totalCost = models.FloatField(null=True, blank=True)
     # Foreign Key
-    rentalBranchID = models.ForeignKey(Branch, on_delete=models.CASCADE)
+    rentalBranchID = models.ForeignKey(Branch,related_name="rental_branch", on_delete=models.CASCADE, null=True, blank=True)
     returnBranchID = models.ForeignKey(
-        Branch, on_delete=models.CASCADE, null=True, blank=True)
+        Branch, on_delete=models.CASCADE, related_name="return_branch", null=True, blank=True)
     carID = models.ForeignKey(Car, on_delete=models.CASCADE)
     typeID = models.ForeignKey(CarType, on_delete=models.CASCADE)
     customerID = models.ForeignKey(Customer, on_delete=models.CASCADE)
     rentalEmployeeID = models.ForeignKey(
-        Employee, on_delete=models.SET_NULL, null=True, blank=True)
+        Employee, on_delete=models.SET_NULL,related_name="rental_employee", null=True, blank=True)
     returnEmployeeID = models.ForeignKey(
-        Employee, on_delete=models.SET_NULL, null=True, blank=True)
+        Employee, on_delete=models.SET_NULL,related_name="return_employee", null=True, blank=True)
 
 
 class CarDamage(models.Model):
