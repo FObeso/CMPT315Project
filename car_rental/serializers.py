@@ -54,5 +54,5 @@ class RentalSerializer(serializers.ModelSerializer):
 class BranchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Branch
-        fields = ["id", "name", "phoneNumber", "province", "city",
+        fields = ["id", "branchName", "phoneNumber", "province", "city",
                   "postalCode", "streetNumber", "streetName", "unitNumber"]
