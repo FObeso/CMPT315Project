@@ -82,16 +82,16 @@ class Rental(models.Model):
     dateReturned = models.DateField(null=True, blank=True)
     totalCost = models.FloatField(null=True, blank=True)
     # Foreign Key
-    rentalBranchID = models.ForeignKey(Branch, on_delete=models.CASCADE)
+    rentalBranchID = models.ForeignKey(Branch,related_name='rentalBranchID', on_delete=models.CASCADE)
     returnBranchID = models.ForeignKey(
-        Branch, on_delete=models.CASCADE, null=True, blank=True)
+        Branch,related_name='returnBranchID', on_delete=models.CASCADE, null=True, blank=True)
     carID = models.ForeignKey(Car, on_delete=models.CASCADE)
     typeID = models.ForeignKey(CarType, on_delete=models.CASCADE)
     customerID = models.ForeignKey(Customer, on_delete=models.CASCADE)
     rentalEmployeeID = models.ForeignKey(
-        Employee, on_delete=models.SET_NULL, null=True, blank=True)
+        Employee,related_name='rentalEmployeeID', on_delete=models.SET_NULL, null=True, blank=True)
     returnEmployeeID = models.ForeignKey(
-        Employee, on_delete=models.SET_NULL, null=True, blank=True)
+        Employee, related_name='returnEmployeeID', on_delete=models.SET_NULL, null=True, blank=True)
 
 
 class CarDamage(models.Model):
