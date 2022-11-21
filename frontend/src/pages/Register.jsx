@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
-import Box from "@mui/material/Box";
+import React, { useState} from "react";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Grid } from "@mui/material";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Input from "../components/Input";
-
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-  const [customers, setCustomers] = useState([]);
+  const navigate = useNavigate();
   const [customer, setCustomer] = useState({
     firstname: "",
     lastname: "",
@@ -30,25 +29,21 @@ const Register = () => {
   const handleChange = (e) => {
     setCustomer({ ...customer, [e.target.name]: e.target.value });
   };
-  const getCustomers = () => {
-    axios.get(`${process.env.REACT_APP_SERVER_URL}/customer/`).then((res) => {
-      console.log(res.data);
-      setCustomers(res.data);
-    });
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(customer);
     axios
-      .post(`${process.env.REACT_APP_SERVER_URL}register/`, {
+      .post(`${process.env.REACT_APP_SERVER_URL}/register/`, {
         ...customer,
       })
       .then((res) => {
         if (res.status === 201) {
-          setCustomers((prevCustomers) => [...prevCustomers, { ...customer }]);
-
+          // save in localstorage: make sure to save the user type as otherwise can't access protected routes
+          localStorage.setItem("email", res.data.customer.email);
+          localStorage.setItem("type", "customer");
           toast.success("Registered Created Successfully");
+          navigate("/dashboard");
         }
       })
       .catch((err) => {
@@ -56,10 +51,6 @@ const Register = () => {
         toast.error(err.message);
       });
   };
-
-  useEffect(() => {
-    getCustomers();
-  }, []);
 
   return (
     <div>
@@ -127,7 +118,7 @@ const Register = () => {
               handleChange={handleChange}
               type="text"
               name="dob"
-              placeholder="Date of Birth"
+              placeholder="Date of Birth mm/dd/yyyy"
             />
           </Grid>
           <Grid item xs={4}>
@@ -139,11 +130,11 @@ const Register = () => {
             />
           </Grid>
           <Grid item xs={5}>
-          <label htmlFor="status">Province: </label>
+            <label htmlFor="status">Province: </label>
             <select name="province"
-             onChange={handleChange} 
-             className="w-100 m-2 ml-5 mt-8 p-2 border rounded-md border-primary">
-            <option value=""></option>
+              onChange={handleChange}
+              className="w-100 m-2 ml-5 mt-8 p-2 border rounded-md border-primary">
+              <option value=""></option>
               <option value="Alberta">Alberta</option>
               <option value="British Columbia">British Columbia</option>
               <option value="Manitoba">Manitoba</option>
@@ -155,8 +146,8 @@ const Register = () => {
               <option value="Ontario">Ontario</option>
               <option value="Prince Edward Island">Prince Edward Island</option>
               <option value="Quebec">Quebec</option>
-              <option value="Saskatchewan">Alberta</option>
-              <option value="Yukon">Alberta</option>
+              <option value="Saskatchewan">Saskatchewan</option>
+              <option value="Yukon">Yukon</option>
             </select>
           </Grid>
           <Grid item xs={3}>
