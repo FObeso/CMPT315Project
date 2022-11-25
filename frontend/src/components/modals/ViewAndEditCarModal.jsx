@@ -257,7 +257,7 @@ const ViewAndEditCarModal = ({
                 <option value=""></option>
                 {branches.map((branch) => (
                   <option value={branch.id} key={branch.id}>
-                    {branch.id}
+                    {branch.branchName}
                   </option>
                 ))}
               </select>

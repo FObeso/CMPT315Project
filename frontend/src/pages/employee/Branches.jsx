@@ -24,7 +24,9 @@ const Branches = () => {
   return (
     <div>
       <div className="flex flex-row w-full">
-        <EmployeeSideBar route={"branches"} />
+        <div>
+          <EmployeeSideBar route={"branches"} />
+        </div>
         <div className="ml-20 w-full mr-20 mt-4">
           {branches.length > 0 ? (
             <>
@@ -65,8 +67,9 @@ const Branches = () => {
                     key={branch.id}
                     container
                     spacing={2}
-                    className={`flex mb-8 pb-3 pt-1 items-center rounded-3xl border  ${idx % 2 === 1 ? "bg-lightOpacity" : ""
-                      }`}
+                    className={`flex mb-8 pb-3 pt-1 items-center rounded-3xl border  ${
+                      idx % 2 === 1 ? "bg-lightOpacity" : ""
+                    }`}
                   >
                     <Grid item xs={2}>
                       <div>{branch.branchName}</div>
@@ -76,13 +79,17 @@ const Branches = () => {
                     </Grid>
 
                     <Grid item xs={2.5}>
-                      <div>{branch.streetNumber} {branch.streetName}</div>
+                      <div>
+                        {branch.streetNumber} {branch.streetName}
+                      </div>
                     </Grid>
                     <Grid item xs={1.5}>
                       <div>{branch.postalCode}</div>
                     </Grid>
                     <Grid item xs={2.5}>
-                      <div>{branch.city}, {branch.province}</div>
+                      <div>
+                        {branch.city}, {branch.province}
+                      </div>
                     </Grid>
                     <Grid item xs={2}>
                       <Button variant="contained" color="success">
@@ -98,10 +105,10 @@ const Branches = () => {
           )}
         </div>
         <AddBranchModal
-        open={showAddBranchModal}
-        onClose={() => setShowAddBranchModal(false)}
-        setBranches={setBranches}
-      />
+          open={showAddBranchModal}
+          onClose={() => setShowAddBranchModal(false)}
+          setBranches={setBranches}
+        />
       </div>
     </div>
   );
