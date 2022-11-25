@@ -33,7 +33,8 @@ urlpatterns = [
     path('customer/', views.customer),
     path('rental/', views.rental),
     path('lateFees/', views.late_fees), 
-    path('returnCar/', views.return_car_to_branch)
+    path('returnCar/', views.return_car_to_branch),
+    path('employee/branches/', views.add_branch),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

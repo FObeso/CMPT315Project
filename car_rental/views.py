@@ -75,11 +75,11 @@ def car_type(request, format=None):
 
 
 
-#Creates/Adds in car type
-#Endpoint cars type
+#Creates/Adds in branch
+#Endpoint branch
 @api_view(['GET','POST'])
 def branch_details(request, format=None):
-    #get all cars
+    #get all branches
     #serialize them
     #return JSON
     if request.method == 'GET':
@@ -211,6 +211,7 @@ def register_customer(request):
 @api_view(["GET"])
 def login_customer(request):
     try:
+        print("HERE")
         if request.method == 'GET':
             email = request.query_params.get("email")
             password = request.query_params.get('password')
@@ -224,8 +225,9 @@ def login_customer(request):
             customer = customer[0]
             # check if passwords match
 
-            passwordMatch = sha.hash(password, customer.password)
+            passwordMatch = sha.verify(password, customer.password)
 
+            print(passwordMatch)
             if (not passwordMatch):
                 return Response({"message": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
         serializer = CustomerSerializer(customer)
@@ -347,3 +349,24 @@ def return_car_to_branch(request):
         return Response({"message": "Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+
+# add branch
+@api_view(['POST'])
+def add_branch(request):
+        if request.method == "POST":
+            try:
+                # check if user email exists
+                branch = Branch.objects.raw("SELECT * FROM car_rental_branch WHERE phoneNumber = '" + request.data["phoneNumber"] + "' ;")
+                if len(branch) > 0:
+                    return Response({"message": "phoneNumber exists"}, status=status.HTTP_400_BAD_REQUEST)
+                print(request.data)
+                serializer = BranchSerializer(data=request.data)
+            
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response({"branch": serializer.data}, status=status.HTTP_201_CREATED)
+                else:
+                    return Response({"message": "Invalid Info"}, status=status.HTTP_400_BAD_REQUEST)
+            except Exception as e:
+                print(e)
+                return Response({"message": "Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
