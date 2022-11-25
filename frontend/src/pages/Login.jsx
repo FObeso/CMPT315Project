@@ -4,7 +4,7 @@ import styles from "../styles/Login.module.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Input from "../components/Input"
+import Input from "../components/Input";
 const Login = () => {
   const navigate = useNavigate();
   const [disabled, setDisabled] = useState(false);
@@ -13,13 +13,14 @@ const Login = () => {
     password: "",
   });
 
-  const handleChange = (c) => {
-    setUserInfo({ ...userInfo, [c.target.name]: c.target.value });
+  const handleChange = (e) => {
+    setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (c) => {
-    c.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
     setDisabled(true);
+
     axios
       .get(`${process.env.REACT_APP_SERVER_URL}/login/`, {
         params: {
@@ -54,7 +55,7 @@ const Login = () => {
           <div className="pr-5 pl-5">
             <Input
               className={styles.input}
-              onChange={handleChange}
+              handleChange={handleChange}
               type="email"
               name="email"
               placeholder="Email Address"
@@ -62,7 +63,7 @@ const Login = () => {
 
             <Input
               className={styles.input}
-              onChange={handleChange}
+              handleChange={handleChange}
               type={"password"}
               name="password"
               placeholder="Password"

@@ -211,10 +211,10 @@ def register_customer(request):
 @api_view(["GET"])
 def login_customer(request):
     try:
-        print("HERE")
         if request.method == 'GET':
             email = request.query_params.get("email")
             password = request.query_params.get('password')
+            print(email, password)
             # check for query params
             if (not email or not password):
                 return Response({"message": "please fill all required fields"}, status=status.HTTP_400_BAD_REQUEST)
