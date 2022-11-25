@@ -32,8 +32,11 @@ const Cars = () => {
   }, []);
 
   return (
-    <div className="flex flex-row w-full">
-      <EmployeeSideBar route={"cars"} />
+    <div className="flex w-full">
+      <div>
+        {" "}
+        <EmployeeSideBar route={"cars"} />
+      </div>
       <div className="ml-20 w-full mr-20 mt-4">
         {cars.length > 0 ? (
           <>
