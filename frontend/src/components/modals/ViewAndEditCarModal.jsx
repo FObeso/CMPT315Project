@@ -40,12 +40,68 @@ const ViewAndEditCarModal = ({
     setCurrentCar({ ...currentCar, [e.target.name]: e.target.value });
   };
 
+  const handleImageChange = (e) => {
+    console.log(e.target.files[0]);
+    setCurrentCar({ ...currentCar, image: e.target.files[0] });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!currentCar.manufacturer || currentCar.manufacturer.length === 0) {
+      toast.error("Manufacturer is Required");
+      return;
+    }
+    if (!currentCar.model || currentCar.model.length === 0) {
+      toast.error("model is Required");
+      return;
+    }
+    if (!currentCar.fuelType || currentCar.fuelType.length === 0) {
+      toast.error("Fuel Type is Required");
+      return;
+    }
+    if (!currentCar.colour || currentCar.colour.length === 0) {
+      toast.error("Colour is Required");
+      return;
+    }
+    if (!currentCar.licensePlate || currentCar.licensePlate.length === 0) {
+      toast.error("License Plate is Required");
+      return;
+    }
+    if (!currentCar.mileage || currentCar.mileage.length === 0) {
+      toast.error("Mileage is Required");
+      return;
+    }
+    if (!currentCar.image || currentCar.image.length === 0) {
+      toast.error("Image is Required");
+      return;
+    }
+    if (!currentCar.typeID || currentCar.typeID.length === 0) {
+      toast.error("Type ID is Required");
+      return;
+    }
+    if (!currentCar.BranchID || currentCar.BranchID.length === 0) {
+      toast.error("Branch ID is Required");
+      return;
+    }
+
+    const formData = new FormData();
+    for (let key in currentCar) {
+      if (key === "image") {
+        formData.append(key, currentCar[key], currentCar[key]?.name);
+      } else {
+        formData.append(key, currentCar[key]);
+      }
+    }
     axios
-      .put(`${process.env.REACT_APP_SERVER_URL}/cars/${currentCar.id}`, {
-        ...currentCar,
-      })
+      .put(
+        `${process.env.REACT_APP_SERVER_URL}/cars/${currentCar.id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
       .then((res) => {
         if (res.status === 200) {
           setCars((prevCars) => {
@@ -158,26 +214,7 @@ const ViewAndEditCarModal = ({
               value={currentCar.colour}
               disabled={disabled}
             />
-            <label htmlFor="status">Enter Car Status: </label>
-            {disabled ? (
-              <input
-                type="text"
-                value={currentCar.status}
-                disabled={disabled}
-                className="w-52 m-2 mt-5 p-2 border rounded-md border-primary"
-              />
-            ) : (
-              <select
-                name="status"
-                disabled={disabled}
-                onChange={handleChange}
-                className="w-52 m-2 mt-5 p-2 border rounded-md border-primary "
-              >
-                <option value=""></option>
-                <option value="available">Available</option>
-                <option value="available">Rented</option>
-              </select>
-            )}
+
             <label htmlFor="status">Enter Fuel Type: </label>
             {disabled ? (
               <input
@@ -262,6 +299,14 @@ const ViewAndEditCarModal = ({
                 ))}
               </select>
             )}
+            <div>
+              <label htmlFor="BranchID">Add Car Image: </label>
+              <input
+                type="File"
+                className=" border-primary "
+                onChange={handleImageChange}
+              />
+            </div>
             <div className="flex items-center justify-center mt-6">
               <Button color="success" variant="contained" type="submit">
                 Save
