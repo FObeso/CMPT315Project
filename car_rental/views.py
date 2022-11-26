@@ -25,10 +25,15 @@ def car_list(request, format=None):
         return Response(serializer.data)
     
     if request.method == 'POST':
+        print(request.data)
         serializer = CarSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            print("here")
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            print("HIIII")
+        
 
 #Updates and deletes car based on id
 #Endpoint cars/<int:id>

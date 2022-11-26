@@ -31,7 +31,7 @@ class Car(models.Model):
     fuelType = models.CharField(max_length=45)
     colour = models.CharField(max_length=45)
     licensePlate = models.CharField(max_length=12)
-    status = models.CharField(max_length=45)
+    status = models.CharField(max_length=45, null=True)
     mileage = models.IntegerField()
     typeID = models.ForeignKey(CarType, on_delete=models.CASCADE)
     BranchID = models.ForeignKey(Branch, on_delete=models.CASCADE)
