@@ -15,9 +15,10 @@ const AddCarModal = ({ open, onClose, setCars }) => {
     fuelType: "",
     colour: "",
     licensePlate: "",
-    status: "",
     mileage: "",
+    status: "Available",
     typeID: "",
+    image: "",
     BranchID: "",
   });
   const [carTypes, setCarTypes] = useCarTypes();
@@ -41,12 +42,63 @@ const AddCarModal = ({ open, onClose, setCars }) => {
     setCar({ ...car, [e.target.name]: e.target.value });
   };
 
+  const handleImageChange = (e) => {
+    console.log(e.target.files[0]);
+    setCar({ ...car, image: e.target.files[0] });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(car);
+    if (!car.manufacturer || car.manufacturer.length === 0) {
+      toast.error("Manufacturer is Required");
+      return;
+    }
+    if (!car.model || car.model.length === 0) {
+      toast.error("model is Required");
+      return;
+    }
+    if (!car.fuelType || car.fuelType.length === 0) {
+      toast.error("Fuel Type is Required");
+      return;
+    }
+    if (!car.colour || car.colour.length === 0) {
+      toast.error("Colour is Required");
+      return;
+    }
+    if (!car.licensePlate || car.licensePlate.length === 0) {
+      toast.error("License Plate is Required");
+      return;
+    }
+    if (!car.mileage || car.mileage.length === 0) {
+      toast.error("Mileage is Required");
+      return;
+    }
+    if (!car.image || car.image.length === 0) {
+      toast.error("Image is Required");
+      return;
+    }
+    if (!car.typeID || car.typeID.length === 0) {
+      toast.error("Type ID is Required");
+      return;
+    }
+    if (!car.BranchID || car.BranchID.length === 0) {
+      toast.error("Branch ID is Required");
+      return;
+    }
+
+    const formData = new FormData();
+    for (let key in car) {
+      if (key === "image") {
+        formData.append(key, car[key], car[key]?.name);
+      } else {
+        formData.append(key, car[key]);
+      }
+    }
     axios
-      .post(`${process.env.REACT_APP_SERVER_URL}/cars/`, {
-        ...car,
+      .post(`${process.env.REACT_APP_SERVER_URL}/cars/`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       })
       .then((res) => {
         if (res.status === 201) {
@@ -60,6 +112,7 @@ const AddCarModal = ({ open, onClose, setCars }) => {
         toast.error(err.message);
       });
   };
+
   return (
     <Modal
       open={open}
@@ -96,16 +149,7 @@ const AddCarModal = ({ open, onClose, setCars }) => {
             name="colour"
             placeholder="Enter Colour"
           />
-          <label htmlFor="status">Enter Car Status: </label>
-          <select
-            name="status"
-            onChange={handleChange}
-            className="w-52 m-2 mt-5 p-2 border rounded-md border-primary "
-          >
-            <option value=""></option>
-            <option value="available">Available</option>
-            <option value="available">Rented</option>
-          </select>
+
           <label htmlFor="status">Enter Fuel Type: </label>
           <select
             name="fuelType"
@@ -154,6 +198,14 @@ const AddCarModal = ({ open, onClose, setCars }) => {
               </option>
             ))}
           </select>
+          <div>
+            <label htmlFor="BranchID">Add Car Image: </label>
+            <input
+              type="File"
+              className=" border-primary "
+              onChange={handleImageChange}
+            />
+          </div>
           <div className="flex items-center justify-center mt-6">
             <Button color="success" variant="contained" type="submit">
               Add Car
