@@ -4,15 +4,10 @@ import axios from 'axios';
 import { useState } from "react";
 
 
-function helper(){
-	return "Suburu SXU "	
-}
 
 
 
-
-
-const CarInfo = () => {
+const CarInfo = (props) => {
 
 	//stores api get request in these state variables
 
@@ -24,6 +19,7 @@ const CarInfo = () => {
 	const [description, setDesc] = useState()
 	const [image, setImage] = useState()
 	const [typeId, setTypeId] = useState()
+	const [rentalBranchId, setRentalBranchId] = useState()
 
 
 
@@ -40,7 +36,7 @@ const CarInfo = () => {
 		setColor(data.colour)
 		setImage(data.image)
 		setTypeId(data.typeID)
-
+		setRentalBranchId(data.BranchID)
 
 		return data
 	
@@ -51,36 +47,82 @@ const CarInfo = () => {
 		let res = await axios.get('http://127.0.0.1:8000/carType/' );
 		let data = res.data;
 		const length = Object.keys(data).length;
-		
-		
-		
+	
 		for (let i =0; i < length; i++){
 			
-			if (data[i].id == typeId){
-
+			if (data[i].id == typeId)
 				console.log(data[i].id, typeId)
 				setDesc(data[i].description)
 				return data[i]
-			}
-
 		}
+	 }
 
-		
-		
 
-	  }
 
-	  function display_states(id){
+	  function display_info_on_page(id){
 		get_car_model(id)
 		get_car_desc(id)
 		
 	  }
 
-	  display_states("5")
+	  
+	/*Displays all information related to the car info on page*/  
+	display_info_on_page(props.car_id)
 
-	
-	  
-	  
+
+
+	/* POST TRANSACTION INFORMATION IN THE DATABASE */
+
+	async function post_customer_transaction_in_db(){
+
+		axios.post('http://127.0.0.1:8000/rental/', {
+			 dateFrom:  props.rental_start_date,
+			 dateTo: props.rental_end_date,
+			 dateReturned: "",
+			 totalCost: props.rental_cost,
+			 rentalBranchID:  rentalBranchId,
+			 returnBranchID: "",
+			 carID: props.car_id,
+			 typeID: typeId,
+			 customerID: props.customer_id,
+			 rentalEmployeeID: "",
+			 returnEmployeeID: ""
+
+		  })
+		  .then((response) => {
+			if (response.status === 201) {
+			console.log(response);
+
+			}
+
+		  }, (error) => {
+			console.log(error);
+			console.log( "start date: " + props.rental_start_date  + "\n")
+			console.log( "end date:" +  props.rental_end_date + "\n")
+			console.log( "cost: " +	props.rental_cost +"\n",)
+			console.log( "rental_branch_Id: " +	rentalBranchId +"\n")
+			console.log( "Car_Id: " +	props.car_id +"\n")
+			console.log( "customer_id: " +	props.customer_id +"\n")
+			console.log( "typeId: " +	typeId +"\n")
+
+			 
+		  });
+
+
+	 }
+
+
+
+
+	 /* Clicking on checkout  */
+	 function handleClick(e) {
+		e.preventDefault();
+		console.log('You clicked submit.');
+		post_customer_transaction_in_db()
+	  }
+
+
+
 
     return <div> 
 
@@ -165,11 +207,12 @@ const CarInfo = () => {
 			<div class="price-tile">
 				
 				<span class="unit">Price Total:  &nbsp; &nbsp; $</span>
-				<span class="amount">102</span>
+				<span class="amount">{props.rental_cost}</span>
 
-				<div class="renting-dates"> <p>Nov, 9 2022 | Nov, 20 2022 </p> </div>
+				<div class="renting-dates"> <p > {props.rental_start_date}  | {props.rental_end_date} </p> </div>
 
-				<div> <button class="button-34"
+				<div>
+					 <button  onClick={handleClick} class="button-34"
 				type="button"> Checkout </button>
 				</div>
 				
