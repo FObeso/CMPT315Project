@@ -2,6 +2,8 @@ import React from "react";
 import "./CarInfo.css"
 import axios from 'axios'; 
 import { useState } from "react";
+import { toast } from "react-toastify";
+import reserved from "./reserved_black.png";
 
 
 
@@ -20,6 +22,7 @@ const CarInfo = (props) => {
 	const [image, setImage] = useState()
 	const [typeId, setTypeId] = useState()
 	const [rentalBranchId, setRentalBranchId] = useState()
+	const [isDisabled, setDisabled] = useState(false);
 
 
 
@@ -50,10 +53,11 @@ const CarInfo = (props) => {
 	
 		for (let i =0; i < length; i++){
 			
-			if (data[i].id == typeId)
+			if (data[i].id == typeId){
 				console.log(data[i].id, typeId)
 				setDesc(data[i].description)
 				return data[i]
+			}
 		}
 	 }
 
@@ -78,7 +82,7 @@ const CarInfo = (props) => {
 		axios.post('http://127.0.0.1:8000/rental/', {
 			 dateFrom:  props.rental_start_date,
 			 dateTo: props.rental_end_date,
-			 dateReturned: "",
+			 dateReturned: null,
 			 totalCost: props.rental_cost,
 			 rentalBranchID:  rentalBranchId,
 			 returnBranchID: "",
@@ -91,20 +95,14 @@ const CarInfo = (props) => {
 		  })
 		  .then((response) => {
 			if (response.status === 201) {
-			console.log(response);
+			toast.success('Successfully reserved car, come see one of our employees!');
+			setDisabled(true);
 
 			}
 
 		  }, (error) => {
+			toast.error(error.message);
 			console.log(error);
-			console.log( "start date: " + props.rental_start_date  + "\n")
-			console.log( "end date:" +  props.rental_end_date + "\n")
-			console.log( "cost: " +	props.rental_cost +"\n",)
-			console.log( "rental_branch_Id: " +	rentalBranchId +"\n")
-			console.log( "Car_Id: " +	props.car_id +"\n")
-			console.log( "customer_id: " +	props.customer_id +"\n")
-			console.log( "typeId: " +	typeId +"\n")
-
 			 
 		  });
 
@@ -117,8 +115,8 @@ const CarInfo = (props) => {
 	 /* Clicking on checkout  */
 	 function handleClick(e) {
 		e.preventDefault();
-		console.log('You clicked submit.');
 		post_customer_transaction_in_db()
+
 	  }
 
 
@@ -212,8 +210,15 @@ const CarInfo = (props) => {
 				<div class="renting-dates"> <p > {props.rental_start_date}  | {props.rental_end_date} </p> </div>
 
 				<div>
-					 <button  onClick={handleClick} class="button-34"
-				type="button"> Checkout </button>
+					
+
+				
+				{isDisabled ? <img class= "reserved" src={require('./reserved_black.png')}/> :  <button  onClick={handleClick}  disabled={isDisabled} class="button-34"
+				type="button"> Checkout </button>}
+
+			
+				
+
 				</div>
 				
 
