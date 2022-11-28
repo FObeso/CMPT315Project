@@ -12,6 +12,7 @@ from rest_framework import status
 from passlib.hash import sha256_crypt as sha
 
 import datetime
+
 #Creates/Adds in car info
 #Endpoint cars
 @api_view(['GET','POST'])
@@ -277,10 +278,19 @@ def rental(request, format=None):
         return Response(serializer.data)
     
     if request.method == 'POST':
-        serializer = RentalSerializer(data=request.data)
+        finalData = request.data
+        finalData["dateFrom"] =datetime.datetime.strptime(finalData["dateFrom"], "%Y-%m-%d").date()
+        finalData["dateTo"] = datetime.datetime.strptime(finalData["dateTo"],  "%Y-%m-%d").date()
+        serializer = RentalSerializer(data=finalData)
+
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            print(serializer.errors)  
+    
+        
 
 
 
