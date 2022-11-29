@@ -124,6 +124,7 @@ const ViewAndEditCarModal = ({
         toast.error(err.message);
       });
   };
+  console.log(currentCar.image);
 
   const deleteCar = (option) => {
     if (option === true) {
@@ -307,6 +308,10 @@ const ViewAndEditCarModal = ({
                 onChange={handleImageChange}
               />
             </div>
+            {/* <img
+              src={`${process.env.REACT_APP_SERVER_URL}${currentCar.image}`}
+              alt="Car"
+            /> */}
             <div className="flex items-center justify-center mt-6">
               <Button color="success" variant="contained" type="submit">
                 Save
