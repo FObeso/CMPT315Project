@@ -14,6 +14,7 @@ import Cars from "./pages/employee/Cars";
 import Transactions from "./pages/employee/Transactions";
 import Branches from "./pages/employee/Branches";
 import Customers from "./pages/employee/Customers";
+import RentConfirmation from "./pages/customer/RentConfirmation";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Routes>
             <Route path="/employee/login/" element={<EmployeeLogin />} />
             <Route path="/login/" element={<Login />} />
+            <Route path="/checkout/" element={<RentConfirmation />} />
             <Route path="/register/" element={<Register />} />
             <Route element={<PrivateEmployeeRoute />}>
               <Route path="/employee/cars/" element={<Cars />} />
