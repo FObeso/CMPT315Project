@@ -15,7 +15,7 @@ const Navbar = () => {
     // navigate user back based on user type
     if (userType.toLowerCase() === "user") {
       navigate("/login/");
-    } else if (userType === "admin") {
+    } else if (userType === "employee") {
       navigate("/employee/login/");
     }
   };
