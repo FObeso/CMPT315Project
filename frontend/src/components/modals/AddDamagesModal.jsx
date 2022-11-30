@@ -56,6 +56,22 @@ const AddDamagesModal = ({ open, onClose, setDamages }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if(damage.damageDate.length === 0) {
+            toast.error("date required");
+            return;
+        }
+        if(damage.description.length === 0) {
+            toast.error("description required");
+            return;
+        }
+        if(damage.damageCost.length === 0) {
+            toast.error("Cost required");
+            return;
+        }
+        if(damage.carID.length === 0) {
+            toast.error("car ID required");
+            return;
+        }
 
 
         const formData = new FormData();
