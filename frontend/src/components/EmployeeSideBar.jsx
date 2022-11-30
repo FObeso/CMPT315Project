@@ -80,6 +80,13 @@ export default function EmployeeSideBar({ route }) {
             route="customers"
             selectedRoute={route}
           />
+          <SideBarItem
+          link="/employee/damages"
+          Icon={() => <FaUserCircle size={24} />}
+          text="Damages"
+          route="damages"
+          selectedRoute={route}
+          />
         </div>
       </div>
     </>
