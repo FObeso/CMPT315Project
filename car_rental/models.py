@@ -96,9 +96,11 @@ class Rental(models.Model):
 
 class CarDamage(models.Model):
     id = models.AutoField(primary_key=True)
-    date = models.DateField()
+    damageDate = models.DateField()
     description = models.TextField()
-    damageCost = models.IntegerField()
-    carID = models.ForeignKey(Car, on_delete=models.CASCADE)
+    damageCost = models.IntegerField(blank=True, null=True)
+    
     image = models.ImageField(
-        default="", upload_to="./car_pictures/car_damages")
+        upload_to="./car_pictures/car_damages", blank=True, null=True)
+    customerID = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True, blank=True)
+    carID = models.ForeignKey(Car, on_delete=models.CASCADE)
