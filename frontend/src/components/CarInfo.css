@@ -1,0 +1,185 @@
+
+
+.car-t{
+    color: #181918;
+    font-size: 2.25rem;
+    font-style: normal;
+    font-weight: 800;
+    letter-spacing: .03125rem;
+    line-height: 1.11;
+    margin-bottom: 1.875rem;
+    text-transform: none;
+  
+}
+
+.whole_page{
+
+    margin-left:  300px;
+}
+
+.car-type-class{
+    color: #181918;
+font-family: din-2014,Arial,sans-serif;
+font-size: 1.5rem;
+font-style: normal;
+font-weight: 400;
+margin-bottom: .5rem;
+border-bottom: 2px solid  #181918; padding-bottom: 5px;
+
+
+}
+
+
+ .vehicle-page-heading__description {
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 330;
+    letter-spacing: -.02em;
+    line-height: 1.3;
+    margin-bottom: 1em;
+    padding-top: 30px;
+  }
+
+  .car-features__list-item  {
+    color: #181918;
+    font-size: .875rem;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: -.015625rem;
+    line-height: 1.29;
+    margin-bottom: 1.25rem;
+    text-transform: none;
+    list-style-type: circle;
+    
+    
+  }
+
+  li.a {
+    list-style-type: circle;
+  }
+  
+
+  .car-details__list-item{
+
+    color: #181918;
+    font-size: .875rem;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: -.015625rem;
+    line-height: 1.29;
+    margin-bottom: 1.25rem;
+    text-transform: none;
+    list-style-type: circle;
+  }
+
+
+  .car-details__title {
+    color: #181918;
+    font-family: din-2014,Arial,sans-serif;
+    font-size: .875rem;
+    font-style: normal;
+    font-weight: 600;
+    margin-bottom: 1.875rem;
+    text-transform: uppercase;
+    
+
+  }
+
+
+  #wrapper {
+    width:1080px;
+    clear:both;
+  }
+  #first {
+    
+    width:300px;
+    float:left;
+  }
+  #second {
+   
+    width:400px;
+    float:left;
+  }
+  #third {
+  
+    width:500px;
+    float:left;
+  }
+
+
+  .price-tile {
+    font-size: inherit;
+    margin: 10px 0;
+    position: relative;
+    text-align: center;
+    
+  }
+
+  .amount {
+   
+    font-size: 1.8rem;
+    
+  
+  }
+
+  .price-tile
+  {
+    color: #181918;
+    font-size: 1.3375rem;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: .015625rem;
+    line-height: 1.33;
+    margin-bottom: 1.25rem;
+    text-transform: none;
+    
+  }
+
+  .renting-dates
+  {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    font-weight: 400;
+    padding-bottom: 50px;
+
+  }
+  
+ 
+  
+  /* CSS */
+  .button-34 {
+    background: #317873;
+    border-radius: 999px;
+    box-shadow: #317873 0 10px 20px -10px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    opacity: 1;
+    outline: 0 solid transparent;
+    padding: 8px 18px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: fit-content;
+    word-break: break-word;
+    border: 0;
+    
+  }
+
+.button-34:hover {background-color: #afc2b0}
+
+.button-34:active {
+  background-color: #8cc78e;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.reserved{
+  width:400px; 
+  float:right;
+    
+}

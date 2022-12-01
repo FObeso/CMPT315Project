@@ -57,7 +57,7 @@ class Customer(models.Model):
     postalCode = models.CharField(max_length=7)
     streetNumber = models.CharField(max_length=45)
     streetName = models.CharField(max_length=45)
-    unitNumber = models.IntegerField(null=True, blank=True)
+    unitNumber = models.CharField(max_length=45,null=True, blank=True)
 
 
 class Employee(models.Model):

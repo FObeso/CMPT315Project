@@ -12,6 +12,7 @@ from rest_framework import status
 from passlib.hash import sha256_crypt as sha
 
 import datetime
+
 #Creates/Adds in car info
 #Endpoint cars
 @api_view(['GET','POST'])
@@ -96,30 +97,6 @@ def branch_details(request, format=None):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-
-#transfer car from one branch to another based on branch id
-#Endpoint branchs/<int:id>
-@api_view(['GET','PUT','DELETE'])
-def branch_move(request, id, format=None):
-    try:
-        branch = Branch.objects.get(pk=id)
-    except Branch.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    #Add to new branch
-    if request.method == 'GET':
-        serializer = BranchSerilzer(Branch)
-        return Response(serializer.data)
-    #Update to new branch
-    elif request.method == 'PUT':
-        serializer = BranchSerilzer(Branch, data=request.data) 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    #Delete from old branch
-    elif request.method == 'DELETE':
-        Branch.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 # register new employee
 @api_view(['GET'])
@@ -247,6 +224,11 @@ def login_customer(request):
 def customer(request, format=None):
     try:
         if request.method == "GET":
+            id = request.query_params.get("id")
+            if id:
+                customer = Customer.objects.get(pk=id)
+                serializer = CustomerSerializer(customer)
+                return Response(serializer.data, status=status.HTTP_200_OK)
             customers = Customer.objects.all()
             serializer = CustomerSerializer(customers, many=True)
             return Response(serializer.data)
@@ -264,9 +246,30 @@ def customer(request, format=None):
         return Response({"message": "Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+
+def return_car_to_branch(car_id, branch_id):
+    #body_unicode = request.body
+    try: 
+ 
+        update = "UPDATE car_rental_car SET BranchID_id = " + str(branch_id)
+
+        cond = " WHERE car_rental_car.id = " + str(car_id)
+
+        query = update + cond
+
+        with connection.cursor() as cursor:
+                cursor.execute(query)        
+            
+        return True
+    
+    except Exception as e:
+        print(e)
+        return Response({"message": "Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 #Creates/Adds in rental table
 #Endpoint Rentals
-@api_view(['GET','POST'])
+@api_view(['GET','POST', 'PUT'])
 def rental(request, format=None):
    
     if request.method == 'GET':
@@ -275,11 +278,40 @@ def rental(request, format=None):
         return Response(serializer.data)
     
     if request.method == 'POST':
-        serializer = RentalSerializer(data=request.data)
+        finalData = request.data
+        finalData["dateFrom"] =datetime.datetime.strptime(finalData["dateFrom"], "%Y-%m-%d").date()
+        finalData["dateTo"] = datetime.datetime.strptime(finalData["dateTo"],  "%Y-%m-%d").date()
+        serializer = RentalSerializer(data=finalData)
+
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            print(serializer.errors)  
+    
+        
 
+    if request.method == 'PUT':
+        print(request.data)
+        id = request.data['id']
+
+        rental = Rental.objects.get(pk=id)
+        serializer = RentalSerializer(rental, data=request.data) 
+        if request.data["returnBranchID"] != rental.rentalBranchID:
+            # try:
+            #     car = Car.objects.raw("UPDATE car_rental_car set branchID = " + request.data["returnBranchID"])
+            # except Car.DoesNotExist:
+            #     return Response(status=status.HTTP_404_NOT_FOUND)
+            # carSerializer = CarSerializer(car) 
+            # if carSerializer.is_valid():
+            #     carSerializer.save()
+            return_car_to_branch(request.data["carID"], request.data["returnBranchID"])
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -305,51 +337,25 @@ def late_fees(request):
 
 
 
-#If a car is returned a different branch and the customer is not a gold memeber
-#charge the customer a fee.
-def return_car_to_different_branch_fee(car_id, branch_id):
+# #If a car is returned a different branch and the customer is not a gold memeber
+# #charge the customer a fee.
+# def return_car_to_different_branch_fee(car_id, branch_id):
    
-    select = "select goldMembership from car_rental_rental "
-    cond = " where carID_id = " + car_id +  "  and branchID_id != " + branch_id + " and goldMembership == 'N' "
+#     select = "select goldMembership from car_rental_rental "
+#     cond = " where carID_id = " + car_id +  "  and branchID_id != " + branch_id + " and goldMembership == 'N' "
 
-    query = select + cond
+#     query = select + cond
 
-    with connection.cursor() as cursor:
-        cursor.execute(query)     
+#     with connection.cursor() as cursor:
+#         cursor.execute(query)     
 
-    #if empty then the person is not a gold member charge them 10 bucks
-    if cursor.fetchall() == 0:
-        return 10
-    else:
-        return 0
+#     #if empty then the person is not a gold member charge them 10 bucks
+#     if cursor.fetchall() == 0:
+#         return 10
+#     else:
+#         return 0
 
 
-
-@api_view(['POST'])
-def return_car_to_branch(request):
-    #body_unicode = request.body
-    
-    try:
-    
-        if request.method == "POST":
-        
-            car_id = request.data["car_id"]
-            branch_id = request.data["branch_id"]
-            
-            update = "UPDATE car_rental_car SET BranchID_id = " + str(branch_id) + " , status = 'Available'"
-
-            cond = " WHERE car_rental_car.id = " + str(car_id) + "  and car_rental_car.status == 'rented' "
-
-            query = update + cond
-
-            with connection.cursor() as cursor:
-                    cursor.execute(query)        
-            
-            return Response({'success':'returned car'}, status=status.HTTP_200_OK)
-    
-    except Exception as e:
-        print(e)
-        return Response({"message": "Server Error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 

@@ -6,11 +6,16 @@ import EmployeeSideBar from "../../components/EmployeeSideBar";
 import DatePicker from "react-datepicker";
 import Input from "../../components/Input";
 import "react-datepicker/dist/react-datepicker.css";
+import ReturnModal from "../../components/modals/ReturnModal";
+import RentalModal from "../../components/modals/RentalModal";
 
 const Transactions = () => {
   const [transactions, setTransactions] = useState([]);
   const [startDate, setStartDate] = useState("");
   const [customerIdFilter, setCustomerIdFilter] = useState("");
+  const [showRentalModal, setShowRentalModal] = useState(false);
+  const [showReturnModal, setShowReturnModal] = useState(false);
+  const [rental, setRental] = useState({});
 
   const getTransactions = () => {
     axios.get(`${process.env.REACT_APP_SERVER_URL}/rental/`).then((res) => {
@@ -26,6 +31,15 @@ const Transactions = () => {
   const resetFilters = () => {
     setStartDate("");
     setCustomerIdFilter("");
+  };
+
+  const startApprovalProcess = (rental) => {
+    setRental(rental);
+    if (rental.rentalEmployeeID && rental.rentalBranchID) {
+      setShowReturnModal(true);
+    } else {
+      setShowRentalModal(true);
+    }
   };
 
   return (
@@ -90,7 +104,6 @@ const Transactions = () => {
             </Grid>
             {transactions
               .filter((transaction) => {
-                console.log(transaction.customerID, customerIdFilter);
                 if (customerIdFilter.length > 0) {
                   return transaction.customerID.toString() === customerIdFilter;
                 }
@@ -142,9 +155,18 @@ const Transactions = () => {
                       <div>{rental.totalCost}</div>
                     </Grid>
                     <Grid item xs={2}>
-                      <Button variant="contained" color="success">
-                        Approve
-                      </Button>
+                      {!rental.returnEmployeeID ? (
+                        <Button
+                          variant="contained"
+                          color="success"
+                          onClick={() => startApprovalProcess(rental)}
+                        >
+                          Approve{" "}
+                          {rental.rentalEmployeeID ? "Return" : "Rental"}
+                        </Button>
+                      ) : (
+                        <div className="font-bold">Processed</div>
+                      )}
                     </Grid>
                   </Grid>
                 );
@@ -154,6 +176,18 @@ const Transactions = () => {
           <p>hello</p>
         )}
       </div>
+      <RentalModal
+        open={showRentalModal}
+        onClose={() => setShowRentalModal(false)}
+        rental={rental}
+        setRental={setRental}
+      />
+      <ReturnModal
+        open={showReturnModal}
+        onClose={() => setShowReturnModal(false)}
+        rental={rental}
+        setRental={setRental}
+      />
     </div>
   );
 };

@@ -30,6 +30,7 @@ const EmployeeLogin = () => {
       .then((res) => {
         // save in localstorage: make sure to save the user type as otherwise can't access protected routes
         localStorage.setItem("email", res.data.employee.email);
+        localStorage.setItem("employeeID", res.data.employee.id);
         localStorage.setItem("type", "employee");
         setDisabled(false);
         toast.success("Login Successful");

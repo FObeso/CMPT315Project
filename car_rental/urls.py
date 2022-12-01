@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from car_rental import views
+from django.conf.urls.static import static
+from django.conf import settings
 from rest_framework.urlpatterns import format_suffix_patterns
 
 from django.conf.urls.static import static
@@ -27,14 +29,14 @@ urlpatterns = [
     path('cars/<int:id>', views.car_detail),
     path('carType/', views.car_type),
     path('branch/', views.branch_details),
-    path('branch/<int:id>', views.branch_move),
+
     path('employees/', views.view_employees),
     path('employee/login/', views.login_employee),
     path('employee/register/', views.register_employee),
     path('login/', views.login_customer),
     path('register/', views.register_customer),
     path('customer/', views.customer),
-    path('rental/', views.rental),
+     path('rental/', views.rental),
     path('lateFees/', views.late_fees), 
     path('returnCar/', views.return_car_to_branch),
     path('employee/branches/', views.add_branch),
