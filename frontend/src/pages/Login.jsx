@@ -35,7 +35,7 @@ const Login = () => {
         setDisabled(false);
         toast.success("Login Successful");
         // change the route to the customer page
-        navigate("/");
+        navigate("/rental");
       })
       .catch(function (err) {
         console.log(err);
