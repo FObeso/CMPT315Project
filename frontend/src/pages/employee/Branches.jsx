@@ -67,6 +67,7 @@ const Branches = () => {
                     key={branch.id}
                     container
                     spacing={2}
+                    style={{ border: "1px solid green" }}
                     className={`flex mb-8 pb-3 pt-1 items-center rounded-3xl border  ${
                       idx % 2 === 1 ? "bg-lightOpacity" : ""
                     }`}

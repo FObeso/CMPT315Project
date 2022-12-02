@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { FaPlus } from "react-icons/fa";
 import EmployeeSideBar from "../../components/EmployeeSideBar";
 import AddDamagesModal from "../../components/modals/AddDamagesModal";
-import ViewDamagesModal from "../../components/modals/ViewDamagesModal"
+import ViewDamagesModal from "../../components/modals/ViewDamagesModal";
 
 const Damages = () => {
   const [damages, setDamages] = useState([]);
@@ -18,9 +18,8 @@ const Damages = () => {
     image: "",
     customerID: "",
     carID: "",
-  })
-  
-  
+  });
+
   const getDamages = () => {
     axios.get(`${process.env.REACT_APP_SERVER_URL}/damages/`).then((res) => {
       console.log(res.data);
@@ -31,7 +30,6 @@ const Damages = () => {
   useEffect(() => {
     getDamages();
   }, []);
-
 
   return (
     <div className="flex w-full">
@@ -82,8 +80,9 @@ const Damages = () => {
                   key={damage.id}
                   container
                   spacing={2}
-                  className={`flex mb-8 pb-3 pt-1 items-center rounded-3xl border  ${idx % 2 === 1 ? "bg-lightOpacity" : ""
-                    }`}
+                  className={`flex mb-8 pb-3 pt-1 items-center rounded-3xl border  ${
+                    idx % 2 === 1 ? "bg-lightOpacity" : ""
+                  }`}
                 >
                   <Grid item xs={1}>
                     <div>{damage.id}</div>
@@ -103,8 +102,8 @@ const Damages = () => {
                   </Grid>
                   <Grid item xs={3}>
                     <div>
-
-                      <img src={`${process.env.REACT_APP_SERVER_URL}${damage.image}`}
+                      <img
+                        src={`${process.env.REACT_APP_SERVER_URL}${damage.image}`}
                         width="50%"
                         alt={`damage.image`}
                       />
@@ -116,8 +115,7 @@ const Damages = () => {
                       color="success"
                       onClick={() => {
                         setCurrentDamage(damage);
-                        setShowViewDamagesModal(true)
-
+                        setShowViewDamagesModal(true);
                       }}
                     >
                       View Info
@@ -128,7 +126,9 @@ const Damages = () => {
             })}
           </>
         ) : (
-          <p>hello</p>
+          <div className="flex justify-center items-center text-center">
+            There are no Damage Records
+          </div>
         )}
       </div>
       <AddDamagesModal
@@ -142,6 +142,6 @@ const Damages = () => {
         onClose={() => setShowViewDamagesModal(false)}
       />
     </div>
-  )
+  );
 };
 export default Damages;

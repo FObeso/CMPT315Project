@@ -48,7 +48,7 @@ const EmployeeLogin = () => {
       <div className="flex-0 mt-20 pt-5 w pb-5  justify-center items-center rounded-md border border-black">
         <form onSubmit={handleSubmit}>
           <div className="flex justify-center items-center font-bold text-2xl">
-            <span>Admin Login</span>
+            <span>Employee Login</span>
           </div>
           <hr className="m-0" />
 
