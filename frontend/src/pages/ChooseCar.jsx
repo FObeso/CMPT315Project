@@ -46,22 +46,6 @@ const ChooseCar = () => {
     alert("clicked");
     //navigate("/rental");
   } 
-  // const getCarTypes = () => {
-  //   axios.get(`${process.env.REACT_APP_SERVER_URL}/cars/types/`).then((res) => {
-  //     console.log(res.data);
-  //     setTransactions(res.data);
-  //   });
-  // };
-
-  const getMaxMile = () => {
-    // var max = 0;
-    // for (var k=0; k <= cars.length; k++){
-    //   console.log(cars[k]);
-    //   max = Math.max(cars[k].mileage, max);
-    // }
-    // console.log(max);
-    //setMaxMile(max);
-  } 
   
   
   const createCarTypes = () => {
@@ -182,16 +166,9 @@ const ChooseCar = () => {
                     trueCarTypes.push(carTypeIDs[j]);
                   } 
                 }
-                //console.log(trueCarTypes);
-                //return true;
                 return trueCarTypes.includes(car.typeID);
               })
               .filter((car) => {
-                // console.log(car.id);
-                // console.log(car.mileage >= minMile);
-                //console.log(maxMile);
-                // console.log(car.mileage <= maxMile);
-                //return true;
                 return (car.mileage >= minMile) && (car.mileage <= maxMile);
               })
               .map((car) => (
