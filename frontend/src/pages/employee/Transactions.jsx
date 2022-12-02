@@ -13,8 +13,10 @@ const Transactions = () => {
   const [transactions, setTransactions] = useState([]);
   const [startDate, setStartDate] = useState("");
   const [customerIdFilter, setCustomerIdFilter] = useState("");
+  const [transactionNameFilter, setTransactionNameFilter] = useState("all");
   const [showRentalModal, setShowRentalModal] = useState(false);
   const [showReturnModal, setShowReturnModal] = useState(false);
+
   const [rental, setRental] = useState({});
 
   const getTransactions = () => {
@@ -40,6 +42,11 @@ const Transactions = () => {
     } else {
       setShowRentalModal(true);
     }
+  };
+
+  const onValueChange = (e) => {
+    console.log(e.target.value);
+    setTransactionNameFilter(e.target.value);
   };
 
   return (
@@ -68,6 +75,39 @@ const Transactions = () => {
                     onChange={(date) => setStartDate(date)}
                   />
                 </div>
+              </div>
+              <div className="mx-2">
+                <label>
+                  <input
+                    type="radio"
+                    value="all"
+                    checked={transactionNameFilter === "all"}
+                    onChange={onValueChange}
+                  />
+                  All
+                </label>
+              </div>
+              <div className="mx-2">
+                <label>
+                  <input
+                    type="radio"
+                    value="rental"
+                    checked={transactionNameFilter === "rental"}
+                    onChange={onValueChange}
+                  />
+                  Rental
+                </label>
+              </div>
+              <div className="mx-2">
+                <label>
+                  <input
+                    type="radio"
+                    value="return"
+                    checked={transactionNameFilter === "return"}
+                    onChange={onValueChange}
+                  />
+                  Return
+                </label>
               </div>
               <div className="ml-auto mr-6">
                 <Button
@@ -126,13 +166,36 @@ const Transactions = () => {
                 }
                 return true;
               })
+              .filter((transaction) => {
+                switch (transactionNameFilter) {
+                  case "all":
+                    return true;
+                  case "rental":
+                    if (transaction.rentalEmployeeID) {
+                      return false;
+                    } else {
+                      return true;
+                    }
+                  case "return":
+                    if (
+                      transaction.rentalEmployeeID &&
+                      !transaction.returnEmployeeID &&
+                      !transaction.returnBranchID
+                    )
+                      return true;
+                    return false;
+                  default:
+                    return true;
+                }
+              })
               .map((rental, idx) => {
                 return (
                   <Grid
                     key={rental.id}
                     container
+                    style={{ border: "1px solid green" }}
                     spacing={2}
-                    className={`flex mb-8 pb-3 pt-1 items-center rounded-3xl border  ${
+                    className={`flex mb-8 pb-3 pt-1 items-center rounded-3xl  ${
                       idx % 2 === 1 ? "bg-lightOpacity" : ""
                     }`}
                   >
