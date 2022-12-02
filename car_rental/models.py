@@ -11,7 +11,7 @@ class Branch(models.Model):
     postalCode = models.CharField(max_length=7)
     streetNumber = models.CharField(max_length=45)
     streetName = models.CharField(max_length=45)
-    unitNumber = models.IntegerField(null=True, blank=True)
+    unitNumber = models.CharField(null=True, blank=True, max_length=6)
 
 
 class CarType(models.Model):
