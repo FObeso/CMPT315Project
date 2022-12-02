@@ -18,6 +18,7 @@ import Damages from "./pages/employee/Damages";
 import RentConfirmation from "./pages/customer/RentConfirmation";
 import RentalDashboard from "./pages/RentalDashboard";
 import ChooseCar from "./pages/ChooseCar";
+import ReserveCar from "./pages/ReserveCar";
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
             <Route element={<PrivateCustomerRoute />}>
               <Route path="/rental" element={<RentalDashboard />} />
               <Route path="/cars" element={<ChooseCar />} />
+              <Route path="/reserve" element={<ReserveCar />} />
             </Route>
           </Routes>
         </div>
