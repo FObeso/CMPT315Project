@@ -18,16 +18,19 @@ const CarCard = ({car, finishSelection, carTypeIDs, carTypeDescs}) => {
                 <h3>{car.id}</h3>
             </div>
             {<div>
-                {/* <img src = {car.Poster !== 'N/A' ? 
-                car.Poster : 'https://via.placeholder.com/400'} 
-                alt = {picAlt}/> */}
+
+                <img src=
+                {`${process.env.REACT_APP_SERVER_URL}${car.image}`}
+                    width="50%"
+                    alt={`car.image`}
+                />
                 {/* <img src = {movie.image !== 'N/A' ? 
                 movie.image : 'https://via.placeholder.com/400'}  */}
-                <img src = 'https://via.placeholder.com/400' 
-                alt = {picAlt}/>
+                
+                {/* <img src = 'https://via.placeholder.com/400' 
+                alt = {picAlt}/> */}
             </div>}
             <div>
-                
             <p>{car.manufacturer}</p>
                 
                 <p>{car.model}</p>

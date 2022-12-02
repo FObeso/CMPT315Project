@@ -19,11 +19,9 @@ const RentConfirmation = () => {
   
   car_id={2} 
   rental_cost={102} 
-
   //DATES MUST BE IN  YYYY-MM-DD FORMAT
   rental_start_date={'2022-01-09'} 
   rental_end_date={'2022-01-18'} 
-
   customer_id ={1} 
   
   />
