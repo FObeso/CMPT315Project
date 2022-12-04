@@ -14,7 +14,10 @@ import Cars from "./pages/employee/Cars";
 import Transactions from "./pages/employee/Transactions";
 import Branches from "./pages/employee/Branches";
 import Customers from "./pages/employee/Customers";
+import Damages from "./pages/employee/Damages";
 import RentConfirmation from "./pages/customer/RentConfirmation";
+import RentalDashboard from "./pages/RentalDashboard";
+import ChooseCar from "./pages/ChooseCar";
 
 function App() {
   return (
@@ -36,9 +39,11 @@ function App() {
               />
               <Route path="/employee/branches/" element={<Branches />} />
               <Route path="/employee/customers/" element={<Customers />} />
+              <Route path="/employee/damages/" element={<Damages />} />
             </Route>
             <Route element={<PrivateCustomerRoute />}>
-              <Route path="/" element={<Dashboard />} />
+              <Route path="/rental" element={<RentalDashboard />} />
+              <Route path="/cars" element={<ChooseCar />} />
             </Route>
           </Routes>
         </div>

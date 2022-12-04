@@ -1,5 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import CarInfo from "../../components/CarInfo"
+import {useLocation} from 'react-router-dom';
 import axios from "axios";
 import { useState } from "react";
 
@@ -7,6 +8,26 @@ const RentConfirmation = () => {
 
   const [rentalCost, setRentalCost] = useState()
 
+  const location = useLocation();
+  
+	// const car = localStorage.getItem("car");
+	const car = location.state.carState;
+  
+	const startDate = location.state.startDate;
+  
+	const endDate = location.state.endDate;
+  const carID = car.id;
+  const customerID = localStorage.getItem("customerID");
+	console.log(customerID);
+	console.log(car);
+  /*Must pass in the following props in order for the page to display
+  car all information and for the post request to the db to be successful 
+  
+   car_id
+   customer_id
+   rental_cost
+   rental_start_date
+   rental_end_date  */
   
    async function rental_cost_helper(typeId){
 
@@ -27,8 +48,6 @@ const RentConfirmation = () => {
 
 	async function get_car_rates(id) {
 
-  
-  
    let res = await axios.get('http://127.0.0.1:8000/cars/' + id)
    let data = res.data
    let typeID = data.typeID
@@ -83,21 +102,23 @@ calc_rental_cost(3, '2022-01-09', '2022-01-18' )
 
 
 
-  return <div>  
+  return <div>
+  {/* <div>{JSON.stringify(startDate)}</div>
+  HERE
+<div>{JSON.stringify(endDate)}</div> */}
   
 
 
   <CarInfo
   
-  car_id={2} 
   rental_cost={rentalCost} 
-
+  car_id={carID} 
+  rental_cost={102} 
   //DATES MUST BE IN  YYYY-MM-DD FORMAT
-  rental_start_date={'2022-01-09'} 
-  rental_end_date={'2022-01-18'} 
-
-  customer_id ={1} 
-
+  rental_start_date={startDate} 
+  rental_end_date={endDate} 
+  customer_id ={customerID} 
+  car_image = {car.image}
   />
     </div>;
 

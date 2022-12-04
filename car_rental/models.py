@@ -11,7 +11,7 @@ class Branch(models.Model):
     postalCode = models.CharField(max_length=7)
     streetNumber = models.CharField(max_length=45)
     streetName = models.CharField(max_length=45)
-    unitNumber = models.IntegerField(null=True, blank=True)
+    unitNumber = models.CharField(null=True, blank=True, max_length=6)
 
 
 class CarType(models.Model):
@@ -57,7 +57,7 @@ class Customer(models.Model):
     postalCode = models.CharField(max_length=7)
     streetNumber = models.CharField(max_length=45)
     streetName = models.CharField(max_length=45)
-    unitNumber = models.IntegerField(null=True, blank=True)
+    unitNumber = models.CharField(max_length=45,null=True, blank=True)
 
 
 class Employee(models.Model):
@@ -96,9 +96,11 @@ class Rental(models.Model):
 
 class CarDamage(models.Model):
     id = models.AutoField(primary_key=True)
-    date = models.DateField()
+    damageDate = models.DateField()
     description = models.TextField()
-    damageCost = models.IntegerField()
-    carID = models.ForeignKey(Car, on_delete=models.CASCADE)
+    damageCost = models.IntegerField(blank=True, null=True)
+    
     image = models.ImageField(
-        default="", upload_to="./car_pictures/car_damages")
+        upload_to="./car_pictures/car_damages", blank=True, null=True)
+    customerID = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True, blank=True)
+    carID = models.ForeignKey(Car, on_delete=models.CASCADE)

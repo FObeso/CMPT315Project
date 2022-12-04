@@ -30,6 +30,7 @@ const EmployeeLogin = () => {
       .then((res) => {
         // save in localstorage: make sure to save the user type as otherwise can't access protected routes
         localStorage.setItem("email", res.data.employee.email);
+        localStorage.setItem("employeeID", res.data.employee.id);
         localStorage.setItem("type", "employee");
         setDisabled(false);
         toast.success("Login Successful");
@@ -47,7 +48,7 @@ const EmployeeLogin = () => {
       <div className="flex-0 mt-20 pt-5 w pb-5  justify-center items-center rounded-md border border-black">
         <form onSubmit={handleSubmit}>
           <div className="flex justify-center items-center font-bold text-2xl">
-            <span>Admin Login</span>
+            <span>Employee Login</span>
           </div>
           <hr className="m-0" />
 

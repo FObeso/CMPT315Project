@@ -46,7 +46,7 @@ const AddBranchModal = ({ open, onClose, setBranches }) => {
             })
             .then((res) => {
                 if (res.status === 201) {
-                    setBranch((prevBranch) => [...prevBranch, { ...branch }]);
+                    setBranches((prevBranch) => [...prevBranch, { ...branch }]);
                     onClose();
                     toast.success("branch Created Successfully");
                 }

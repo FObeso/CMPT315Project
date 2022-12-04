@@ -194,7 +194,7 @@ const AddCarModal = ({ open, onClose, setCars }) => {
             <option value=""></option>
             {branches.map((branch) => (
               <option value={branch.id} key={branch.id}>
-                {branch.name}
+                {branch.branchName}
               </option>
             ))}
           </select>

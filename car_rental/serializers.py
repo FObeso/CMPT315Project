@@ -41,7 +41,7 @@ class CustomerSerializer(serializers.ModelSerializer):
 class CarDamageSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarDamage
-        fields = ['id', 'date', 'damageCost', 'description']
+        fields = ['id', 'damageDate', 'description', 'damageCost', 'image', 'customerID', 'carID']
 
 
 class RentalSerializer(serializers.ModelSerializer):
