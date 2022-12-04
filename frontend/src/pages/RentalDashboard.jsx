@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from 'react-datepicker';
 import useBranches from "../hooks/useBranches";
-import { Button } from "react-bootstrap/lib/InputGroup";
+// import { Button } from "react-bootstrap/lib/InputGroup";
 import Form from 'react-bootstrap/Form';
 
 const Dashboard = () => {
@@ -75,13 +75,13 @@ const Dashboard = () => {
       </div>
 
       <div className="ml-auto mr-6">
-        <Button
+        {/* <Button
           variant="contained"
           color="secondary" 
           onClick={handleSubmit}
         >
         Check Availability
-        </Button>
+        </Button> */}
       </div>
       
     </div>
