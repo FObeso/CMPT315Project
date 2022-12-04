@@ -73,12 +73,17 @@ const Dashboard = () => {
           />
         </div>
       </div>
-      
-      <Button 
-        onClick={handleSubmit}
-      >
+
+      <div className="ml-auto mr-6">
+        <Button
+          variant="contained"
+          color="secondary" 
+          onClick={handleSubmit}
+        >
         Check Availability
-      </Button>
+        </Button>
+      </div>
+      
     </div>
     );
 };
