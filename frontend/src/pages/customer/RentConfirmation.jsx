@@ -18,8 +18,6 @@ const RentConfirmation = () => {
 	const endDate = location.state.endDate;
   const carID = car.id;
   const customerID = localStorage.getItem("customerID");
-	console.log(customerID);
-	console.log(car);
   /*Must pass in the following props in order for the page to display
   car all information and for the post request to the db to be successful 
   
@@ -28,7 +26,7 @@ const RentConfirmation = () => {
    rental_cost
    rental_start_date
    rental_end_date  */
-  
+
    async function rental_cost_helper(typeId){
 
     let res = await axios.get('http://127.0.0.1:8000/carType/' );
@@ -101,7 +99,6 @@ calc_rental_cost(3, '2022-01-09', '2022-01-18' )
 
 
 
-
   return <div>
   {/* <div>{JSON.stringify(startDate)}</div>
   HERE
@@ -113,7 +110,6 @@ calc_rental_cost(3, '2022-01-09', '2022-01-18' )
   
   rental_cost={rentalCost} 
   car_id={carID} 
-  rental_cost={102} 
   //DATES MUST BE IN  YYYY-MM-DD FORMAT
   rental_start_date={startDate} 
   rental_end_date={endDate} 
