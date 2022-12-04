@@ -32,7 +32,7 @@ export default function BasicModal({
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
 
-  const handleClose = () =>{
+    const handleClose = () =>{
     setMinMile(Number(minMileIn.current.value));
     if( maxMileIn.current.value.toString().length > 0){
       setMaxMile(Number(maxMileIn.current.value));
@@ -283,7 +283,8 @@ export default function BasicModal({
             }
 
             {/* CAR TYPES CATEGORY */}
-            <p>Car Types</p>
+            {/* {Taken out - Too messy} */}
+            {/* <p>Car Types</p>
               {
                 carTypeDescs?.length > 0 ?
                 (
@@ -311,7 +312,7 @@ export default function BasicModal({
                         <h2>No car types found</h2>
                     </div>
                 )
-            }
+            } */}
 
             {/* FUEL TYPES CATEGORY */}
             <p>Fuel Types</p>
