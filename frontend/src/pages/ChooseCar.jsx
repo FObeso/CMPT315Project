@@ -2,12 +2,10 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import CarCard from "../components/chooseCarComponents/CarCard";
 import "../card.css";
-import { useNavigate } from "react-router-dom";
 import FilterModal from "../components/chooseCarComponents/FilterModal";
 import useCarTypes from "../hooks/useCarTypes";
 
 const ChooseCar = () => {
-  const navigate = useNavigate();
   const [cars, setCars] = useState([]);
   const [colours, setColours] = useState([]);
   const [clrBoxes, setClrBoxes] = useState([]);
@@ -23,17 +21,6 @@ const ChooseCar = () => {
   const [carTypeBoxes, setCarTypeBoxes] = useState([]);
   const [minMile, setMinMile] = useState(0);
   const [maxMile, setMaxMile] = useState(0);
-  // const [currentCar, setCurrentCar] = useState({
-  //   manufacturer: "",
-  //   model: "",
-  //   fuelType: "",
-  //   colour: "",
-  //   licensePlate: "",
-  //   status: "",
-  //   mileage: "",
-  //   typeID: "",
-  //   BranchID: "",
-  // });
 
   //Car Data from branch populates filter
   const getCars = () => {
@@ -41,12 +28,6 @@ const ChooseCar = () => {
       setCars(res.data);
     });
   };
-  
-  const finishSelection = () => {
-    alert("clicked");
-    //navigate("/rental");
-  } 
-  
   
   const createCarTypes = () => {
     var cTypeIDs = [];
@@ -69,7 +50,6 @@ const ChooseCar = () => {
     }
     setMaxMile(max);
     setCarTypeIDs(cTypeIDs);
-    
     setCarTypeDescs(cDesc);
   };
   
@@ -80,12 +60,8 @@ const ChooseCar = () => {
 
   useEffect(() => {
     createCarTypes();
-    var numeroPerguntas = 5;     
-    var anyBoxesChecked = new Array(numeroPerguntas).fill(false);
-    console.log(anyBoxesChecked);
   }, [cars]);
 
-  
   return (
   <div>
       <h1>Cars Available</h1>
@@ -174,7 +150,6 @@ const ChooseCar = () => {
               .map((car) => (
                 <CarCard 
                   car = {car}
-                  finishSelection = {finishSelection}
                   carTypeIDs = {carTypeIDs}
                   carTypeDescs = {carTypeDescs}
                 />

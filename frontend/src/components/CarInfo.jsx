@@ -3,14 +3,13 @@ import "./CarInfo.css"
 import axios from 'axios'; 
 import { useState } from "react";
 import { toast } from "react-toastify";
-import reserved from "./reserved_black.png";
-
 
 
 
 
 const CarInfo = (props) => {
 
+	// const car = localStorage.getItem("car");
 	//stores api get request in these state variables
 
 	const [manufacturer, setManufacturer] = useState()
@@ -24,12 +23,16 @@ const CarInfo = (props) => {
 	const [rentalBranchId, setRentalBranchId] = useState()
 	const [isDisabled, setDisabled] = useState(false);
 
-
-
+	// localStorage.setItem("email", res.data.customer.email);
+	// localStorage.setItem("type", "customer");	
+	
+	// console.log(JSON.stringify(car));
+	// alert(location)
 	async function get_car_model(id) {
 
 		let res = await axios.get('http://127.0.0.1:8000/cars/' + id);
 		let data = res.data;
+		
 		
 		//set states
 		setManufacturer(data.manufacturer)
@@ -53,7 +56,7 @@ const CarInfo = (props) => {
 	
 		for (let i =0; i < length; i++){
 			
-			if (data[i].id == typeId){
+			if (data[i].id === typeId){
 				console.log(data[i].id, typeId)
 				setDesc(data[i].description)
 				return data[i]
@@ -122,8 +125,7 @@ const CarInfo = (props) => {
 
 
 
-    return <div> 
-
+    return (<div> 
 
 <div class ="whole_page">
 
@@ -195,8 +197,11 @@ const CarInfo = (props) => {
 
                 
                 <div id="third" class="car-pic">
-				<img class="vehicle-detail-band__car-image" src= {"https://assets.gcs.ehi.com/content/enterprise_cros/data/vehicle/bookingCountries/CA/CARS/CCAR.doi.768.high.imageSmallThreeQuarterNodePath.png/1611777286679.png"} alt="https://assets.gcs.ehi.com/content/enterprise_cros/data/vehicle/bookingCountries/CA/CARS/CCAR.doi.768.high.imageSmallThreeQuarterNodePath.png/1611777286679.png">
-                 </img> 
+				<img src=
+                    {`${process.env.REACT_APP_SERVER_URL}${props.car_image}`}
+                        width="100%"
+                        alt={`car.image`}
+                    />
 			</div>
 
 
@@ -237,7 +242,7 @@ const CarInfo = (props) => {
 					</div>
 
 
-
+	)
 }
 
 
