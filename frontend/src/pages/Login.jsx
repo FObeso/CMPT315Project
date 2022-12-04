@@ -31,6 +31,7 @@ const Login = () => {
       .then((res) => {
         // save in localstorage: make sure to save the user type as otherwise can't access protected routes
         localStorage.setItem("email", res.data.customer.email);
+        localStorage.setItem("customerID", res.data.customer.id);
         localStorage.setItem("type", "customer");
         setDisabled(false);
         toast.success("Login Successful");

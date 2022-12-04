@@ -1,5 +1,8 @@
 import React from "react";
-const CarCard = ({car, finishSelection, carTypeIDs, carTypeDescs}) => {
+import CarModal from "./CarModal";
+const CarCard = ({car, carTypeIDs, carTypeDescs}) => {
+    const startDate = '2022-01-09';
+    const endDate = '2022-01-18';
     const picAlt = car.manufacturer + " " + car.model;
     const getType = (cartypeID) => {
         for(var i =0; i < carTypeIDs.length; i++){
@@ -10,37 +13,44 @@ const CarCard = ({car, finishSelection, carTypeIDs, carTypeDescs}) => {
         }
         return ("Car type not found");
     }
+    
+    const carDesc = getType(car.typeID);
     return(
-        <div className='car'
-            onClick={finishSelection}
-        >
-            <div>
-                <h3>{car.id}</h3>
+        <div>
+            <div className='car'>
+                <div>
+                    <h3>{car.id}</h3>
+                </div>
+                <div id="carImage">
+                    <img src=
+                    {`${process.env.REACT_APP_SERVER_URL}${car.image}`}
+                        width="70%"
+                        alt={picAlt}
+                    />
+                </div>
+                <div>
+                    <p>{car.manufacturer}</p>
+                    
+                    <p>{car.model}</p>
+                    
+                    <p>{car.colour}</p>
+
+                    <p>{car.status}</p>
+
+                    <p>{car.mileage} kilometres</p>
+                </div>
+                
+                <div>
+            
+                </div>
             </div>
-            {<div>
-
-                <img src=
-                {`${process.env.REACT_APP_SERVER_URL}${car.image}`}
-                    width="50%"
-                    alt={`car.image`}
+            <div id="carButton">
+                <CarModal 
+                    car = {car}
+                    carDesc = {carDesc}
+                    startDate = {startDate}
+                    endDate = {endDate}
                 />
-                {/* <img src = {movie.image !== 'N/A' ? 
-                movie.image : 'https://via.placeholder.com/400'}  */}
-                
-                {/* <img src = 'https://via.placeholder.com/400' 
-                alt = {picAlt}/> */}
-            </div>}
-            <div>
-            <p>{car.manufacturer}</p>
-                
-                <p>{car.model}</p>
-                
-                <p>{car.colour}</p>
-                
-                {/* <p>{car.typeID}</p> */}
-                <p>{getType(car.typeID)}</p>
-
-                <p>{car.status}</p>
             </div>
         </div>
     )
