@@ -5,16 +5,11 @@ import axios from "axios";
 import { useState } from "react";
 
 const RentConfirmation = () => {
-
   const [rentalCost, setRentalCost] = useState()
-
   const location = useLocation();
-  
 	// const car = localStorage.getItem("car");
 	const car = location.state.carState;
-  
 	const startDate = location.state.startDate;
-  
 	const endDate = location.state.endDate;
   const carID = car.id;
   const customerID = localStorage.getItem("customerID");
@@ -52,7 +47,7 @@ const RentConfirmation = () => {
 
    return rental_cost_helper(typeID)
   
-	  }
+	}
 
 
     // a and b are javascript Date objects
@@ -65,6 +60,8 @@ function date_diff_days(a, b) {
 }
 
   
+
+calc_rental_cost(carID, startDate, endDate)
 
 //YYYY-DD-MM format for dates must be a string
 //Returns the best cost to the user based on algo
@@ -89,32 +86,25 @@ async function calc_rental_cost(carId, startDate, endDate){
   setRentalCost(calc)
 
   return parseInt(calc)
-
-
 }
 
 
 
-calc_rental_cost(3, '2022-01-09', '2022-01-18' )
-
 
 
   return <div>
-  {/* <div>{JSON.stringify(startDate)}</div>
-  HERE
-<div>{JSON.stringify(endDate)}</div> */}
+  {/* <div>{JSON.stringify(startDate)}</div>*/}
+  {/* // HERE */}
+  {/* <div>{ carID}</div>  */}
   
-
-
   <CarInfo
-  
-  rental_cost={rentalCost} 
-  car_id={carID} 
-  //DATES MUST BE IN  YYYY-MM-DD FORMAT
-  rental_start_date={startDate} 
-  rental_end_date={endDate} 
-  customer_id ={customerID} 
-  car_image = {car.image}
+    rental_cost={rentalCost} 
+    car_id={carID} 
+    //DATES MUST BE IN  YYYY-MM-DD FORMAT
+    rental_start_date={startDate} 
+    rental_end_date={endDate} 
+    customer_id ={customerID} 
+    car_image = {car.image}
   />
     </div>;
 

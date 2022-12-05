@@ -28,7 +28,7 @@ function App() {
         <div className={styles.container}>
           <Routes>
             <Route path="/employee/login/" element={<EmployeeLogin />} />
-            <Route path="/login/" element={<Login />} />
+            <Route path="/" element={<Login />} />
             <Route path="/checkout/" element={<RentConfirmation />} />
             <Route path="/register/" element={<Register />} />
             <Route element={<PrivateEmployeeRoute />}>
@@ -45,7 +45,7 @@ function App() {
             <Route element={<PrivateCustomerRoute />}>
               <Route path="/rentals/" element={<Rentals />} />
               <Route path="/rental" element={<RentalDashboard />} />
-              <Route path="/cars" element={<ChooseCar />} />
+              <Route path="/cars/" element={<ChooseCar />} />
             </Route>
           </Routes>
         </div>

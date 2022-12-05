@@ -5,11 +5,13 @@ import { toast } from "react-toastify";
 import useBranches from "../../hooks/useBranches";
 import DatePicker from "react-datepicker";
 import { Grid } from "@mui/material";
-
+import { useNavigate } from "react-router-dom";
 import 'react-datepicker/dist/react-datepicker.css'
 
 const Rentals = () => {
 
+        
+    const navigate = useNavigate();
     const [pageVal, setPageVal] = useState({
         branchID: "",
     });
@@ -34,6 +36,11 @@ const Rentals = () => {
         p: 4,
     };
 
+    const getAvail = () => {
+        localStorage.setItem("startDate", startDate.toLocaleDateString());
+        localStorage.setItem("endDate", endDate.toLocaleDateString());
+        navigate('/cars/');
+    }
     const handleChange = (e) => {
         setPageVal({ ...pageVal, [e.target.name]: e.target.value })
     }
@@ -97,13 +104,18 @@ const Rentals = () => {
                         </Grid>
                     </Grid>
                     <div className="flex items-center justify-center mt-6">
-                        <Button color="success" variant="contained" type="submit">
+                        <Button 
+                            color="success" 
+                            variant="contained" 
+                            type="submit"
+                            onClick = {getAvail}>
                             Find Availability
                         </Button>
                     </div>
                 </form>
             </Box>
-            <div>Info u need: branchID:{pageVal.branchID} dateFrom: {startDate.toLocaleDateString()} dateTo: {startDate.toLocaleDateString()}</div>
+            <div>Info u need: branchID:{pageVal.branchID} </div>
+            <div>dateFrom: {startDate.toLocaleDateString()} dateTo: {endDate.toLocaleDateString()}</div>
         </div>
     )
 };

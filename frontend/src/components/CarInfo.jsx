@@ -22,12 +22,8 @@ const CarInfo = (props) => {
 	const [typeId, setTypeId] = useState()
 	const [rentalBranchId, setRentalBranchId] = useState()
 	const [isDisabled, setDisabled] = useState(false);
-
-	// localStorage.setItem("email", res.data.customer.email);
-	// localStorage.setItem("type", "customer");	
 	
 	// console.log(JSON.stringify(car));
-	// alert(location)
 	async function get_car_model(id) {
 
 		let res = await axios.get('http://127.0.0.1:8000/cars/' + id);

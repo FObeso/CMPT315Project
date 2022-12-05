@@ -20,7 +20,7 @@ const style = {
   p: 4,
   overflow: 'scroll'
 };
-export default function CarModal({car, carDesc, startDate, endDate}) {
+export default function CarModal({car, carDesc, startDate, endDate, rentalCost}) {
     
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
@@ -33,7 +33,7 @@ export default function CarModal({car, carDesc, startDate, endDate}) {
         localStorage.setItem("car",car);
         // navigate("/checkout");
         navigate('/checkout',{state:{carState:car, startDate: startDate, endDate: endDate}});
-      } 
+    } 
 
   useEffect(() => {
   }, []);
@@ -80,6 +80,7 @@ export default function CarModal({car, carDesc, startDate, endDate}) {
             <p>{car.status}</p>
             <p>{car.mileage} kilometres</p>
             <p>{carDesc}</p>
+            <p>${rentalCost}</p>
     </div>
   </div>
                 
