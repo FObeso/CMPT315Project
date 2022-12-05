@@ -61,7 +61,7 @@ function date_diff_days(a, b) {
 
   
 
-calc_rental_cost(carID, '2022-01-09', '2022-01-18')
+calc_rental_cost(carID, startDate, endDate)
 
 //YYYY-DD-MM format for dates must be a string
 //Returns the best cost to the user based on algo
