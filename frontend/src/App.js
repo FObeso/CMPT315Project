@@ -18,7 +18,7 @@ import Damages from "./pages/employee/Damages";
 import RentConfirmation from "./pages/customer/RentConfirmation";
 import RentalDashboard from "./pages/RentalDashboard";
 import ChooseCar from "./pages/ChooseCar";
-
+import Rentals from "./pages/customer/Rentals";
 function App() {
   return (
     <>
@@ -38,10 +38,12 @@ function App() {
                 element={<Transactions />}
               />
               <Route path="/employee/branches/" element={<Branches />} />
+
               <Route path="/employee/customers/" element={<Customers />} />
               <Route path="/employee/damages/" element={<Damages />} />
             </Route>
             <Route element={<PrivateCustomerRoute />}>
+              <Route path="/rentals/" element={<Rentals />} />
               <Route path="/rental" element={<RentalDashboard />} />
               <Route path="/cars" element={<ChooseCar />} />
             </Route>
