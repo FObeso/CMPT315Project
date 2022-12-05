@@ -39,6 +39,35 @@ const AddBranchModal = ({ open, onClose, setBranches }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if(branch.branchName.length === 0) {
+            toast.error("Branch Name required");
+            return;
+        }
+        if(branch.phoneNumber.length === 0) {
+            toast.error("Phone Number required");
+            return;
+        }
+        if(branch.province.length === 0) {
+            toast.error("Province required");
+            return;
+        }
+        if(branch.city.length === 0) {
+            toast.error("City required");
+            return;
+        }
+        if(branch.postalCode.length === 0) {
+            toast.error("Postal Code required");
+            return;
+        }
+        if(branch.streetNumber.length === 0) {
+            toast.error("Street Number required");
+            return;
+        }
+        if(branch.streetName.length === 0) {
+            toast.error("Street Name required");
+            return;
+        }
+
         console.log(branch);
         axios
             .post(`${process.env.REACT_APP_SERVER_URL}/employee/branches/`, {

@@ -4,16 +4,20 @@ import Button from "@mui/material/Button";
 import { toast } from "react-toastify";
 import useBranches from "../../hooks/useBranches";
 import DatePicker from "react-datepicker";
-import Input from "../../components/Input";
-import ButtonStyles from "../../styles/Login.module.css";
+import { Grid } from "@mui/material";
+
+import 'react-datepicker/dist/react-datepicker.css'
 
 const Rentals = () => {
+
     const [pageVal, setPageVal] = useState({
         branchID: "",
-        dateFrom: "",
-        dateTo: "",
-    })
+    });
+
     const [branches, setBranches] = useBranches();
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+
 
     const style = {
         position: "absolute",
@@ -33,19 +37,10 @@ const Rentals = () => {
     const handleChange = (e) => {
         setPageVal({ ...pageVal, [e.target.name]: e.target.value })
     }
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        if(pageVal.branchID.length === 0){
+        if (pageVal.branchID.length === 0) {
             toast.error("Branch required");
-            return;
-        }
-        if(pageVal.dateFrom.length === 0){
-            toast.error("DateFrom required");
-            return;
-        }
-        if(pageVal.branchID.length === 0){
-            toast.error("DateTo required");
             return;
         }
 
@@ -70,32 +65,45 @@ const Rentals = () => {
                             ))}
                         </select>
                     </div>
-                    
-                    <Input
-                        handleChange={handleChange}
-                        type="text"
-                        name="dateFrom"
-                        placeholder="Start Date mm/dd/yyyy"
-                        sx={6}
+                    <Grid
+                        container
+                        spacing={2}
                     >
-                    </Input>
-                    
-                    <Input
-                        handleChange={handleChange}
-                        type="text"
-                        name="dateTo"
-                        placeholder="End Date mm/dd/yyyy"
-                        sx={6}
-                    >
-                    </Input>
+                        <Grid item xs={6}>
+                            <label htmlFor="date">Pick-up Date</label>
+                                <div>
+                                <DatePicker
+                                      style={{
+                                        backgroundColor: "aliceblue",
+                                        height: "24px",
+                                        borderRadius: "8px",
+                                        fontSize: "14px",
+                                        padding: "3px 10px"
+                                      }}
+                                    selected={startDate}
+                                    dateFormat="yyyy-MM-dd"
+                                    onChange={(date) => setStartDate(date)}
+                                />
+                                </div>
+
+                        </Grid>
+                        <Grid item xs={6}>
+                            <label htmlFor="date">Drop-off Date</label>
+                            <DatePicker
+                                selected={endDate}
+                                dateFormat="yyyy-MM-dd"
+                                onChange={(date) => setEndDate(date)}
+                            />
+                        </Grid>
+                    </Grid>
                     <div className="flex items-center justify-center mt-6">
-                    <Button color="success" variant="contained" type="submit">
-                        Find Availability 
-                    </Button>
+                        <Button color="success" variant="contained" type="submit">
+                            Find Availability
+                        </Button>
                     </div>
                 </form>
             </Box>
-            <div>Info u need: branchID:{pageVal.branchID} dateFrom:{pageVal.dateFrom} dateTo:{pageVal.dateTo}</div>
+            <div>Info u need: branchID:{pageVal.branchID} dateFrom: {startDate.toLocaleDateString()} dateTo: {startDate.toLocaleDateString()}</div>
         </div>
     )
 };
