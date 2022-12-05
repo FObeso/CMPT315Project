@@ -19,6 +19,90 @@ const Rentals = () => {
     const [endDate, setEndDate] = useState(new Date());
 
 
+    
+  function is_date_range_valid(startDate, endDate, chosenDate){
+
+    let chosen = Date.parse(chosenDate)
+    let from = Date.parse(startDate)
+    let to = Date.parse(endDate)
+
+    if((chosen <= to && chosen >= from)){
+      return false
+    }else{
+      return true
+    }  
+
+  }
+  
+
+
+
+
+async function generate_avail_car_id(rented_car_list){
+
+  let res =  await axios.get('http://127.0.0.1:8000/cars/' );
+  let data = res.data;
+  const length = Object.keys(data).length;
+  const car_list = []
+
+
+  for (let i =0; i < length; i++){
+
+    car_list.push(data[i].id)
+  }
+
+  var availiable_cars = car_list.filter(x => rented_car_list.indexOf(x) === -1);
+
+  localStorage.setItem('avail_cars', JSON.stringify(availiable_cars));
+
+  const cars = JSON.parse(localStorage.getItem('avail_cars'));
+  console.log(cars)
+  
+}
+
+
+
+
+//YYYY-MM-DD format 
+async function find_cars_availiable(startDate, endDate){
+  let res =  await axios.get('http://127.0.0.1:8000/rental/' );
+  let data = res.data;
+
+  let rented_car_list = []
+
+  const length = Object.keys(data).length;
+  console.log(length)
+
+ 
+  for (let i =0; i < length; i++){
+   console.log(data[i].dateTo)
+   var date_1 =  is_date_range_valid(data[i].dateFrom, data[i].dateTo, startDate)
+   var date_2 =  is_date_range_valid(data[i].dateFrom, data[i].dateTo, endDate)
+
+   if (date_1 == false && date_2 == false && data[i].rentalEmployeeID != null && data[i].rentalBranchID != null){
+
+    rented_car_list.push(data[i].carID)
+
+   }
+   
+  }
+
+  generate_avail_car_id(rented_car_list)
+
+
+
+}
+
+/*  
+
+EXAMPLE TEST FUNCTION
+
+find_cars_availiable("2022-11-3", "2022-11-6")
+
+*/
+
+
+
     const style = {
         position: "absolute",
         top: "55%",
