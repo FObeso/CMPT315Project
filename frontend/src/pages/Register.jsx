@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Grid } from "@mui/material";
@@ -32,6 +32,55 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (customer.firstname.length === 0) {
+      toast.error("First name required");
+      return;
+    }
+    if (customer.lastname.length === 0) {
+      toast.error("Last name required");
+      return;
+    }
+    if (customer.driverLicense.length === 0) {
+      toast.error("Driver license required");
+      return;
+    }
+    if (customer.email.length === 0) {
+      toast.error("Email required");
+      return;
+    }
+    if (customer.password.length === 0) {
+      toast.error("Password required");
+      return;
+    }
+    if (customer.phoneNumber.length === 0) {
+      toast.error("Phone Number required");
+      return;
+    }
+    if (customer.dob.length === 0) {
+      toast.error("Date of birth required");
+      return;
+    }
+    if (customer.province.length === 0) {
+      toast.error("Province required");
+      return;
+    }
+    if (customer.city.length === 0) {
+      toast.error("City required");
+      return;
+    }
+    if (customer.postalCode.length === 0) {
+      toast.error("Postal Code required");
+      return;
+    }
+    if (customer.streetNumber.length === 0) {
+      toast.error("Street number required");
+      return;
+    }
+    if (customer.streetName.length === 0) {
+      toast.error("Street name required");
+      return;
+    }
+ 
     console.log(customer);
     axios
       .post(`${process.env.REACT_APP_SERVER_URL}/register/`, {
