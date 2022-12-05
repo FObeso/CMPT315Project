@@ -33,7 +33,7 @@ export default function CarModal({car, carDesc, startDate, endDate}) {
         localStorage.setItem("car",car);
         // navigate("/checkout");
         navigate('/checkout',{state:{carState:car, startDate: startDate, endDate: endDate}});
-      } 
+    } 
 
   useEffect(() => {
   }, []);

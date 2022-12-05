@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from 'react-datepicker';
 import useBranches from "../hooks/useBranches";
-// import { Button } from "react-bootstrap/lib/InputGroup";
+import Button from '@mui/material/Button';
 import Form from 'react-bootstrap/Form';
 
 const Dashboard = () => {
@@ -29,10 +29,10 @@ const Dashboard = () => {
 
   const handleSubmit = ( () => {
     //alert("clicked");
-    navigate("/cars");
     console.log(currentBranchID);
     console.log(selectedDatePick);
     console.log(selectedDateReturn);
+    navigate("/cars");
   })
 
   return (
@@ -82,6 +82,15 @@ const Dashboard = () => {
         >
         Check Availability
         </Button> */}
+        <Button
+        style={{
+            borderRadius: 11,
+            color:"white",
+            backgroundColor: "#3B8C5D",
+            padding: "12px",
+            fontSize: "14px"
+            }}
+        ></Button>
       </div>
       
     </div>
