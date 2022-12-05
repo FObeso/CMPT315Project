@@ -93,9 +93,7 @@ const Branches = () => {
                       </div>
                     </Grid>
                     <Grid item xs={2}>
-                      <Button variant="contained" color="success">
-                        View Info
-                      </Button>
+
                     </Grid>
                   </Grid>
                 );
