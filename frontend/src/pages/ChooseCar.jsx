@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import CarCard from "../components/chooseCarComponents/CarCard";
 import "../card.css";
+
 import FilterModal from "../components/chooseCarComponents/FilterModal";
 import useCarTypes from "../hooks/useCarTypes";
 
@@ -22,6 +23,9 @@ const ChooseCar = () => {
   const [minMile, setMinMile] = useState(0);
   const [maxMile, setMaxMile] = useState(0);
 
+  const startDate = localStorage.getItem("startDate");
+  
+  const endDate = localStorage.getItem("endDate");
   //Car Data from branch populates filter
   const getCars = () => {
     axios.get(`${process.env.REACT_APP_SERVER_URL}/cars/`).then((res) => {
@@ -64,7 +68,9 @@ const ChooseCar = () => {
 
   return (
   <div>
-      <h1>Cars Available</h1>
+      <h1 className="heading">Cars Available</h1>
+      {startDate}
+      {endDate}
       <FilterModal
         cars = {cars}
         colours={colours}

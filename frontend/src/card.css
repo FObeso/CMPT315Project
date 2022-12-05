@@ -55,6 +55,18 @@
   cursor: pointer;
 } */
 
+.heading{
+  color: #181918;
+  font-size: 2.25rem;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: .03125rem;
+  line-height: 1.11;
+  margin-bottom: 1.875rem;
+  text-transform: none;
+
+}
+
 #carButton {
     margin: 1.5rem;
   
