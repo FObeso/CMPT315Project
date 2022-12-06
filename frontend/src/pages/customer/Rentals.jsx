@@ -37,8 +37,8 @@ const Rentals = () => {
     };
 
     const getAvail = () => {
-        localStorage.setItem("startDate", startDate.toLocaleDateString());
-        localStorage.setItem("endDate", endDate.toLocaleDateString());
+        localStorage.setItem("startDate", startDate.toLocaleDateString().replaceAll('/','-'));
+        localStorage.setItem("endDate", endDate.toLocaleDateString().replaceAll('/','-'));
         navigate('/cars/');
     }
     const handleChange = (e) => {
@@ -58,7 +58,7 @@ const Rentals = () => {
                 <form onSubmit={handleSubmit}>
                     <div style={{ width: "700" }}>
 
-
+                        <p>Select Branch</p>
                         <select
                             name="branchID"
                             onChange={handleChange}
@@ -115,7 +115,7 @@ const Rentals = () => {
                 </form>
             </Box>
             <div>Info u need: branchID:{pageVal.branchID} </div>
-            <div>dateFrom: {startDate.toLocaleDateString()} dateTo: {endDate.toLocaleDateString()}</div>
+            <div>dateFrom: {startDate.toLocaleDateString().replaceAll('/','-')} dateTo: {endDate.toLocaleDateString().replaceAll('/','-')   }</div>
         </div>
     )
 };
