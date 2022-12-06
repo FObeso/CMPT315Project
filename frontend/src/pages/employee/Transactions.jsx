@@ -244,6 +244,7 @@ const Transactions = () => {
         onClose={() => setShowRentalModal(false)}
         rental={rental}
         setRental={setRental}
+        transactions={transactions}
       />
       <ReturnModal
         open={showReturnModal}

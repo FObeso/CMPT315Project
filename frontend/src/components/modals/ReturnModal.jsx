@@ -63,6 +63,7 @@ const ReturnModal = ({ open, onClose, rental, setRental }) => {
       toast.error("Please select a return branch");
       return;
     }
+    console.log(customer);
 
     axios
       .put(`${process.env.REACT_APP_SERVER_URL}/rental/`, {

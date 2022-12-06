@@ -168,6 +168,7 @@ def login_employee(request):
 def register_customer(request):
         if request.method == "POST":
             try:
+                print("HI")
                 # check if user email exists
                 customer = Customer.objects.raw("SELECT * FROM car_rental_customer WHERE email = '" + request.data["email"] + "' ;")
                 if len(customer) > 0:
@@ -176,7 +177,7 @@ def register_customer(request):
 
                 finalData["password"] = sha.hash(request.data["password"])
 
-                finalData["dob"] = datetime.datetime.strptime(finalData["dob"], "%m/%d/%Y").date()
+                finalData["dob"] = datetime.datetime.strptime(finalData["dob"], "%Y-%M-%d").date()
                 serializer = CustomerSerializer(data=finalData)
                 if serializer.is_valid():
                     serializer.save()
@@ -233,12 +234,12 @@ def customer(request, format=None):
             serializer = CustomerSerializer(customers, many=True)
             return Response(serializer.data)
         elif request.method == "PUT":
-            id = request.query_params.get("id")
+            id = request.data["id"]
             customer = Customer.objects.get(pk=id)
             serializer = CustomerSerializer(customer, data=request.data) 
             if serializer.is_valid():
                 serializer.save()
-                return Response(serializer.data)
+                return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
     except Exception as e:
