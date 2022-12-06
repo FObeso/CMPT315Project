@@ -122,8 +122,8 @@ find_cars_availiable("2022-11-3", "2022-11-6")
     };
 
     const getAvail = () => {
-        localStorage.setItem("startDate", startDate.toLocaleDateString());
-        localStorage.setItem("endDate", endDate.toLocaleDateString());
+        localStorage.setItem("startDate", startDate.toISOString().split('T')[0]);
+        localStorage.setItem("endDate", endDate.toISOString().split('T')[0]);
         navigate('/cars/');
     }
     const handleChange = (e) => {
@@ -200,7 +200,7 @@ find_cars_availiable("2022-11-3", "2022-11-6")
                 </form>
             </Box>
             <div>Info u need: branchID:{pageVal.branchID} </div>
-            <div>dateFrom: {startDate.toLocaleDateString()} dateTo: {endDate.toLocaleDateString()}</div>
+            <div>dateFrom: {startDate.toISOString().split('T')[0]} dateTo: {endDate.toISOString().split('T')[0]}</div>
         </div>
     )
 };
