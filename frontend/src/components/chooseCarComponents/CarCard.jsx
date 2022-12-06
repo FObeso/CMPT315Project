@@ -75,8 +75,7 @@ const CarCard = ({car, carTypeIDs, carTypeDescs}) => {
       days = days - months * 30;
       var weeks = parseInt(days / 7);
       days = days - weeks * 7;
-      console.log("days, weeks, months: Rental", days, weeks, months)
-    
+      
       //list of rates for car [days, weeks, months]
       const rate_list = await get_car_rates(carId)
     
