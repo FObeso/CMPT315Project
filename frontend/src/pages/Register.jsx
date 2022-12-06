@@ -80,8 +80,7 @@ const Register = () => {
       toast.error("Street name required");
       return;
     }
- 
-    console.log(customer);
+
     axios
       .post(`${process.env.REACT_APP_SERVER_URL}/register/`, {
         ...customer,
