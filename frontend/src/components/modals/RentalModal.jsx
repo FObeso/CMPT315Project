@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -7,8 +7,11 @@ import Input from "../Input";
 import useBranches from "../../hooks/useBranches";
 import axios from "axios";
 import { toast } from "react-toastify";
-const RentalModal = ({ open, onClose, rental, setRental }) => {
+import useCustomer from "../../hooks/useCustomer";
+const RentalModal = ({ open, onClose, rental, setRental, transactions }) => {
   const [branches, setBranches] = useBranches();
+  const [upgradeMember, setUpgradeMember] = useState(false);
+  const [customer, setCustomer] = useCustomer(rental.customerID);
   const style = {
     position: "absolute",
     top: "50%",
@@ -23,6 +26,27 @@ const RentalModal = ({ open, onClose, rental, setRental }) => {
     overflow: "auto",
     p: 4,
   };
+
+  const CheckforUpgradedMembership = () => {
+    const currentYear = new Date(rental.dateFrom).getFullYear();
+    const customerYealyrentals = transactions.filter((trans) => {
+      const year = new Date(trans.dateFrom).getFullYear();
+      return year === currentYear && trans.customerID === rental.customerID;
+    });
+
+    const yearlyCost = customerYealyrentals.reduce(
+      (a, rental) => (a += Number(rental.totalCost)),
+      0
+    );
+
+    if (customerYealyrentals.length >= 3 && Number(yearlyCost) >= 2000) {
+      setUpgradeMember(true);
+    }
+  };
+
+  useEffect(() => {
+    CheckforUpgradedMembership();
+  }, [open]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -46,6 +70,27 @@ const RentalModal = ({ open, onClose, rental, setRental }) => {
       );
       return;
     }
+
+    if (upgradeMember) {
+      axios
+        .put(`${process.env.REACT_APP_SERVER_URL}/customer/`, {
+          ...customer,
+          goldMembership: true,
+        })
+        .then((res) => {
+          if (res.status !== 200) {
+            console.log(res.data);
+            toast.error(res.data.message);
+            return;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error(err.message);
+          return;
+        });
+    }
+
     axios
       .put(`${process.env.REACT_APP_SERVER_URL}/rental/`, {
         ...rental,
@@ -94,6 +139,13 @@ const RentalModal = ({ open, onClose, rental, setRental }) => {
         <div className="mt-2">
           Rental Date: <strong>{rental.dateFrom}</strong>{" "}
         </div>
+        {upgradeMember && customer.goldMembership === false && (
+          <div className="text-red-500 mt-5 text-center">
+            This member has more than 3 Transactions this Year that totals over
+            $2000 so he will be granted Gold membership once this transaction is
+            approved
+          </div>
+        )}
         <div className="fixed bottom-5 left-80 ml-8">
           <Button color="success" variant="contained" onClick={handleSubmit}>
             APPROVE

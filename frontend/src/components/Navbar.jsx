@@ -13,8 +13,8 @@ const Navbar = () => {
   const logout = () => {
     localStorage.clear();
     // navigate user back based on user type
-    if (userType.toLowerCase() === "user") {
-      navigate("/login/");
+    if (userType.toLowerCase() === "customer") {
+      navigate("/");
     } else if (userType === "employee") {
       navigate("/employee/login/");
     }
@@ -31,7 +31,7 @@ const Navbar = () => {
   const guessLinks = (
     <ul>
       <li>
-        <Link to="/login" className="flex items-center">
+        <Link to="/" className="flex items-center">
           <FaSignInAlt />
           <span className="ml-2 font-semibold ">Login</span>
         </Link>
@@ -46,7 +46,7 @@ const Navbar = () => {
   return (
     <nav className={styles.navbar}>
       <h1>
-        <Link to="/dashboard">
+        <Link to="/rentals">
           <i className="fas fa-code"></i>{" "}
           <p className="text-lg font-bold">Exotic Rentals</p>
         </Link>

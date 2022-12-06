@@ -6,8 +6,6 @@ import Register from "./pages/Register";
 import EmployeeLogin from "./pages/EmployeeLogin";
 import Navbar from "./components/Navbar";
 import { ToastContainer } from "react-toastify";
-import AdminDashboard from "./pages/AdminDashboard";
-import Dashboard from "./pages/Dashboard";
 import PrivateEmployeeRoute from "./components/routing/EmployeePrivateRoute";
 import PrivateCustomerRoute from "./components/routing/CustomerPrivateRoute";
 import Cars from "./pages/employee/Cars";

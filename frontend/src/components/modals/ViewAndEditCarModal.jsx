@@ -216,7 +216,7 @@ const ViewAndEditCarModal = ({
               disabled={disabled}
             />
 
-            <label htmlFor="status">Enter Fuel Type: </label>
+            <label htmlFor="status">Fuel Type: </label>
             {disabled ? (
               <input
                 type="text"
@@ -251,7 +251,7 @@ const ViewAndEditCarModal = ({
               value={currentCar.mileage}
               placeholder="Enter Car mileage"
             />
-            <label htmlFor="typeID">Enter Car Type: </label>
+            <label htmlFor="typeID">Car Type: </label>
             {disabled ? (
               <input
                 type="text"
@@ -277,13 +277,17 @@ const ViewAndEditCarModal = ({
                 ))}
               </select>
             )}
-            <label htmlFor="BranchID">Enter Branch name: </label>
+            <label htmlFor="BranchID">Branch name: </label>
             {disabled ? (
               <input
                 type="text"
                 disabled={disabled}
                 className="w-52 m-2 mt-5 p-2 border rounded-md border-primary"
-                value={currentCar.BranchID}
+                value={
+                  branches.find(
+                    (branch) => Number(branch.id) === currentCar.BranchID
+                  )?.branchName
+                }
               />
             ) : (
               <select
@@ -300,18 +304,21 @@ const ViewAndEditCarModal = ({
                 ))}
               </select>
             )}
-            <div>
-              <label htmlFor="BranchID">Add Car Image: </label>
-              <input
-                type="File"
-                className=" border-primary "
-                onChange={handleImageChange}
+            {!disabled ? (
+              <div>
+                <label htmlFor="BranchID">Add Car Image: </label>
+                <input
+                  type="File"
+                  className=" border-primary "
+                  onChange={handleImageChange}
+                />
+              </div>
+            ) : (
+              <img
+                src={`${process.env.REACT_APP_SERVER_URL}${currentCar.image}`}
+                alt="Car"
               />
-            </div>
-            {/* <img
-              src={`${process.env.REACT_APP_SERVER_URL}${currentCar.image}`}
-              alt="Car"
-            /> */}
+            )}
             <div className="flex items-center justify-center mt-6">
               <Button color="success" variant="contained" type="submit">
                 Save
