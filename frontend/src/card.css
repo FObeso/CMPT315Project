@@ -7,7 +7,6 @@
   box-sizing: border-box;
 }
 
-
 .empty {
   width: 100%;
   margin-top: 3rem;
@@ -55,26 +54,24 @@
   cursor: pointer;
 } */
 
-.heading{
+.heading {
   color: #181918;
   font-size: 2.25rem;
   font-style: normal;
   font-weight: 800;
-  letter-spacing: .03125rem;
+  letter-spacing: 0.03125rem;
   line-height: 1.11;
   margin-bottom: 1.875rem;
   text-transform: none;
-
 }
 
 #carButton {
-    margin: 1.5rem;
-  
-    position: relative;
-    border-radius: 12px;
-    overflow: hidden;
-    border: none;
-  
+  margin: 1.5rem;
+
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: none;
 }
 .car {
   width: 310px;
@@ -117,7 +114,7 @@
 
 .car div:nth-of-type(3) {
   z-index: 2;
-  background-color: #3B8C5D;
+  background-color: #3b8c5d;
   padding: 16px 24px 24px 24px;
 
   position: absolute;
