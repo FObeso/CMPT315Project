@@ -111,8 +111,8 @@ find_cars_availiable("2022-11-3", "2022-11-6")
   };
 
   const getAvail = () => {
-    localStorage.setItem("startDate", startDate.toLocaleDateString());
-    localStorage.setItem("endDate", endDate.toLocaleDateString());
+    localStorage.setItem("startDate", startDate.toISOString().slice(0, 10));
+    localStorage.setItem("endDate", endDate.toISOString().slice(0, 10));
     localStorage.setItem("branchID", pageVal.branchID.toString());
     navigate("/cars/");
   };
