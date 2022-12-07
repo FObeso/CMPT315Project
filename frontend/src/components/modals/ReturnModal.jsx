@@ -9,6 +9,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import useCustomer from "../../hooks/useCustomer";
+import useCars from "../../hooks/useCars";
 
 const RETURN_BRANCH_FEE = 80;
 const LATE_FEE_PER_DAY = 65;
@@ -16,6 +17,7 @@ const LATE_FEE_PER_DAY = 65;
 const ReturnModal = ({ open, onClose, rental, setRental }) => {
   const [branches, setBranches] = useBranches();
   const [customer, setCustomer] = useCustomer(rental.customerID);
+  const [cars, setCars] = useCars();
   const [lateFee, setLateFee] = useState(false);
   const [returnBranchFeeCheck, setReturnBranchFeeCheck] = useState(false);
   const today = new Date();
@@ -33,6 +35,7 @@ const ReturnModal = ({ open, onClose, rental, setRental }) => {
     overflow: "auto",
     p: 4,
   };
+  console.log(customer);
 
   useEffect(() => {
     let toDate = new Date(rental.dateTo);
@@ -40,7 +43,14 @@ const ReturnModal = ({ open, onClose, rental, setRental }) => {
 
     toDate.setDate(toDate.getDate() + 1);
     if (toDate.getTime() < today.getTime()) {
-      setLateFee(today.getDate() - toDate.getDate());
+      var Difference_In_Time = today.getTime() - toDate.getTime();
+
+      // To calculate the no. of days between two dates
+      var Difference_In_Days = Number.parseInt(
+        Difference_In_Time / (1000 * 3600 * 24)
+      );
+      console.log(Difference_In_Days);
+      setLateFee(Difference_In_Days);
     }
   }, [open]);
 
@@ -59,11 +69,10 @@ const ReturnModal = ({ open, onClose, rental, setRental }) => {
       toast.error("Cannot find employee id");
       return;
     }
-    if (rental.returnBranchID.length === 0) {
+    if (!rental.returnBranchID || rental.returnBranchID.length === 0) {
       toast.error("Please select a return branch");
       return;
     }
-    console.log(customer);
 
     axios
       .put(`${process.env.REACT_APP_SERVER_URL}/rental/`, {
@@ -96,7 +105,7 @@ const ReturnModal = ({ open, onClose, rental, setRental }) => {
   useEffect(() => {
     if (
       rental.rentalBranchID !== rental.returnBranchID &&
-      !rental.goldMembership
+      !customer.goldMembership
     ) {
       setReturnBranchFeeCheck(true);
     } else {
@@ -121,6 +130,21 @@ const ReturnModal = ({ open, onClose, rental, setRental }) => {
           Approve Return Transaction
         </Typography>
         <hr />
+        <div className="mt-2">
+          Customer Name:{" "}
+          <strong>
+            {customer.firstname} {customer.lastname}
+          </strong>{" "}
+        </div>
+        <div className="mt-2">
+          Car Info:{" "}
+          <strong>
+            {rental.carID} -{" "}
+            {cars.find((car) => car.id === rental.carID)?.manufacturer}{" "}
+            {cars.find((car) => car.id === rental.carID)?.model}
+          </strong>{" "}
+        </div>
+
         <div className="mt-2">
           Rental Branch name:{" "}
           <strong>

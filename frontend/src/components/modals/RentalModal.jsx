@@ -8,10 +8,12 @@ import useBranches from "../../hooks/useBranches";
 import axios from "axios";
 import { toast } from "react-toastify";
 import useCustomer from "../../hooks/useCustomer";
+import useCars from "../../hooks/useCars";
 const RentalModal = ({ open, onClose, rental, setRental, transactions }) => {
   const [branches, setBranches] = useBranches();
   const [upgradeMember, setUpgradeMember] = useState(false);
   const [customer, setCustomer] = useCustomer(rental.customerID);
+  const [cars, setCars] = useCars();
   const style = {
     position: "absolute",
     top: "50%",
@@ -110,6 +112,7 @@ const RentalModal = ({ open, onClose, rental, setRental, transactions }) => {
         toast.error(err.message);
       });
   };
+  console.log("customer", customer);
 
   return (
     <Modal
@@ -128,6 +131,21 @@ const RentalModal = ({ open, onClose, rental, setRental, transactions }) => {
           Approve Rental Transaction
         </Typography>
         <hr />
+        <div className="mt-2">
+          Customer Name:{" "}
+          <strong>
+            {customer.firstname} {customer.lastname}
+          </strong>{" "}
+        </div>
+        <div className="mt-2">
+          Car Info:{" "}
+          <strong>
+            {rental.carID} -{" "}
+            {cars.find((car) => car.id === rental.carID)?.manufacturer}{" "}
+            {cars.find((car) => car.id === rental.carID)?.model}
+          </strong>{" "}
+        </div>
+
         <div className="mt-2">
           Rental Branch name:{" "}
           <strong>

@@ -5,6 +5,7 @@ import { useEffect } from "react";
 
 const useCustomer = (id) => {
   const [customer, setCustomer] = useState({});
+  console.log(id);
 
   useEffect(() => {
     axios

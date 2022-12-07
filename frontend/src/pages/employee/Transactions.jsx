@@ -8,6 +8,7 @@ import Input from "../../components/Input";
 import "react-datepicker/dist/react-datepicker.css";
 import ReturnModal from "../../components/modals/ReturnModal";
 import RentalModal from "../../components/modals/RentalModal";
+import RentalInfoModal from "../../components/modals/RentalInfoModal";
 
 const Transactions = () => {
   const [transactions, setTransactions] = useState([]);
@@ -15,6 +16,7 @@ const Transactions = () => {
   const [customerIdFilter, setCustomerIdFilter] = useState("");
   const [transactionNameFilter, setTransactionNameFilter] = useState("all");
   const [showRentalModal, setShowRentalModal] = useState(false);
+  const [showRentalInfoModal, setShowRentalInfoModal] = useState(false);
   const [showReturnModal, setShowReturnModal] = useState(false);
 
   const [rental, setRental] = useState({});
@@ -228,7 +230,16 @@ const Transactions = () => {
                           {rental.rentalEmployeeID ? "Return" : "Rental"}
                         </Button>
                       ) : (
-                        <div className="font-bold">Processed</div>
+                        <Button
+                          variant="contained"
+                          color="success"
+                          onClick={() => {
+                            setRental(rental);
+                            setShowRentalInfoModal(true);
+                          }}
+                        >
+                          View Info
+                        </Button>
                       )}
                     </Grid>
                   </Grid>
@@ -239,19 +250,31 @@ const Transactions = () => {
           <p>hello</p>
         )}
       </div>
-      <RentalModal
-        open={showRentalModal}
-        onClose={() => setShowRentalModal(false)}
-        rental={rental}
-        setRental={setRental}
-        transactions={transactions}
-      />
-      <ReturnModal
-        open={showReturnModal}
-        onClose={() => setShowReturnModal(false)}
-        rental={rental}
-        setRental={setRental}
-      />
+      {showRentalModal && (
+        <RentalModal
+          open={showRentalModal}
+          onClose={() => setShowRentalModal(false)}
+          rental={rental}
+          setRental={setRental}
+          transactions={transactions}
+        />
+      )}
+      {showReturnModal && (
+        <ReturnModal
+          open={showReturnModal}
+          onClose={() => setShowReturnModal(false)}
+          rental={rental}
+          setRental={setRental}
+        />
+      )}
+      {showRentalInfoModal && (
+        <RentalInfoModal
+          open={showRentalInfoModal}
+          onClose={() => setShowRentalInfoModal(false)}
+          rental={rental}
+          setRental={setRental}
+        />
+      )}
     </div>
   );
 };
