@@ -166,7 +166,7 @@ const Register = () => {
               handleChange={handleChange}
               type="text"
               name="dob"
-              placeholder="Date of Birth mm/dd/yyyy"
+              placeholder="Date of Birth YYYY-MM-DD"
             />
           </Grid>
           <Grid item xs={4}>
